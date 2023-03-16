@@ -1,5 +1,5 @@
-import { TProps } from '../models';
 import React, { ChangeEvent, Component } from 'react';
+import { TProps } from '../models';
 
 export class Search extends Component<TProps, { searchVal: string }> {
   constructor(props: TProps) {
