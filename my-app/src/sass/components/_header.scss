@@ -1,0 +1,27 @@
+.header {
+  background-color: $color-main;
+  padding: 20px 0;
+  font-size: 20px;
+  color: $color-font;
+
+  &__link {
+    color: $color-font;
+    padding: 5px 13px;
+    border-radius: 30px;
+    margin-right: 5px;
+    transition: all .3s ease-in-out;
+
+    &:last-child {
+      margin-right: 0px;
+    }
+
+    &.active {
+      color: $color-accent-dark;
+    }
+
+    &:hover {
+      background-color: $color-main-hover;
+    }
+  }
+}
+
