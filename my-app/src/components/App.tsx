@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Homepage } from '../../pages/Homepage';
-import { Aboutpage } from '../../pages/Aboutpage';
-import { Errorpage } from '../../pages/Errorpage';
-import Layout from '../Layout/Layout';
-import './App.css';
+import { Homepage } from '../pages/Homepage';
+import { Aboutpage } from '../pages/Aboutpage';
+import { Errorpage } from '../pages/Errorpage';
+import Layout from './Layout';
 
 export default class App extends Component {
   render() {
