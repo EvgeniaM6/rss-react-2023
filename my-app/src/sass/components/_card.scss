@@ -1,0 +1,36 @@
+.card {
+  width: 320px;
+  padding: 5px;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  &__image {
+    width: 320px;
+    height: 480px;
+    object-fit: cover;
+  }
+
+  &__colors {
+    display: flex;
+    align-items: flex-end;
+
+    &-title {
+      margin: 0 5px 0 0;
+    }
+
+    &-block {
+      display: flex;
+    }
+
+    &-palette {
+      width: 20px;
+      height: 20px;
+      border: solid 1px $color-main;
+      margin-right: 5px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
