@@ -7,7 +7,7 @@ export interface IGood {
   imageUrl: string;
   description: string;
   colors: TGoodColor[];
-  composition: string;
+  composition: TGoodComposition;
   care: string;
   price: string;
   sizes: string[];
@@ -16,4 +16,9 @@ export interface IGood {
 type TGoodColor = {
   title: string;
   code: string;
+};
+
+type TGoodComposition = {
+  short: string;
+  full: string;
 };
