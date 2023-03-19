@@ -1,6 +1,10 @@
 .container {
   max-width: 1280px;
-  padding: 0 50px;
+  padding: 10px 50px;
   margin: 0 auto;
   text-align: center;
+
+  @include media-tablet {
+    padding: 5px 5px;
+  }
 }
