@@ -1,0 +1,14 @@
+.about-page {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+
+  &__paragraph {
+    text-align: start;
+    margin-bottom: 10px;
+  }
+
+  .paragraph-highlight {
+    color: $color-accent-dark;
+    font-size: 18px;
+  }
+}

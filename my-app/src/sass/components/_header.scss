@@ -1,15 +1,18 @@
 .header {
   background-color: $color-main;
   padding: 20px 0;
-  font-size: 20px;
+  font-size: 24px;
   color: $color-font;
+  height: 95px;
 
   &__link {
     color: $color-font;
     padding: 5px 13px;
     border-radius: 30px;
     margin-right: 5px;
-    transition: all .3s ease-in-out;
+    font-family: Poppins, sans-serif;
+    font-weight: 200;
+    transition: all .3s ease;
 
     &:last-child {
       margin-right: 0px;
@@ -20,8 +23,12 @@
     }
 
     &:hover {
-      background-color: $color-main-hover;
+      color: $color-accent;
     }
+  }
+
+  @include media-tablet {
+    font-size: 22px;
   }
 }
 
