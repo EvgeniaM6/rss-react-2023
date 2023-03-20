@@ -27,6 +27,13 @@
     }
   }
 
+  &__current {
+    font-family: Poppins, sans-serif;
+    font-weight: 200;
+    font-size: 18px;
+    text-align: center;
+  }
+
   @include media-tablet {
     font-size: 22px;
   }

@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import { TPropsHandle } from 'models';
 
-export class Errorpage extends Component {
+export class Errorpage extends Component<TPropsHandle> {
+  componentDidMount(): void {
+    this.props.handleOpenPage();
+  }
+
   render() {
     return (
       <div className="container error-page">

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import { TProps } from 'models';
 
-export default class Layout extends Component {
+export default class Layout extends Component<TProps> {
   render() {
     return (
       <header className="header">
@@ -13,6 +14,7 @@ export default class Layout extends Component {
             About us
           </NavLink>
         </div>
+        <div className="header__current">current page: {this.props.currentPage}</div>
       </header>
     );
   }

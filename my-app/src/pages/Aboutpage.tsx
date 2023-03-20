@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import { TPropsHandle } from 'models';
 
-export class Aboutpage extends Component {
+export class Aboutpage extends Component<TPropsHandle> {
+  componentDidMount(): void {
+    this.props.handleOpenPage();
+  }
+
   render() {
     return (
       <div className="container about-page">
