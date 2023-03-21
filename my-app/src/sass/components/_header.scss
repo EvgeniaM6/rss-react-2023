@@ -1,0 +1,41 @@
+.header {
+  background-color: $color-main;
+  padding: 20px 0;
+  font-size: 24px;
+  color: $color-font;
+  height: 95px;
+
+  &__link {
+    color: $color-font;
+    padding: 5px 13px;
+    border-radius: 30px;
+    margin-right: 5px;
+    font-family: Poppins, sans-serif;
+    font-weight: 200;
+    transition: all .3s ease;
+
+    &:last-child {
+      margin-right: 0px;
+    }
+
+    &.active {
+      color: $color-accent-dark;
+    }
+
+    &:hover {
+      color: $color-accent;
+    }
+  }
+
+  &__current {
+    font-family: Poppins, sans-serif;
+    font-weight: 200;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  @include media-tablet {
+    font-size: 22px;
+  }
+}
+

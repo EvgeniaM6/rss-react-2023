@@ -1,0 +1,15 @@
+.container {
+  max-width: 1280px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.main {
+  min-height: calc(100vh - 95px - 40px);
+  padding: 10px 50px;
+  margin: 0 auto;
+
+  @include media-tablet {
+    padding: 5px 5px;
+  }
+}
