@@ -6,6 +6,7 @@ import { Errorpage } from '../pages/Errorpage';
 import Layout from './Layout';
 import Footer from './Footer';
 import { TProps } from 'models';
+import { Formspage } from '../pages/Formspage';
 
 export default class App extends Component<TProps, TProps> {
   constructor(props: TProps) {
@@ -35,6 +36,7 @@ export default class App extends Component<TProps, TProps> {
           <Routes>
             <Route path="/" element={<Homepage handleOpenPage={this.handleOpenPage} />} />
             <Route path="/about" element={<Aboutpage handleOpenPage={this.handleOpenPage} />} />
+            <Route path="/forms" element={<Formspage handleOpenPage={this.handleOpenPage} />} />
             <Route path="*" element={<Errorpage handleOpenPage={this.handleOpenPage} />} />
           </Routes>
         </main>

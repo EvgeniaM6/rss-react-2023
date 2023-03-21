@@ -10,6 +10,9 @@ export default class Layout extends Component<TProps> {
           <NavLink to="/" className="header__link">
             Home
           </NavLink>
+          <NavLink to="/forms" className="header__link">
+            Forms
+          </NavLink>
           <NavLink to="/about" className="header__link">
             About us
           </NavLink>
