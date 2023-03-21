@@ -1,5 +1,17 @@
 .form {
+  text-align: start;
+
   &__field {
     border: none;
+    padding: 0;
+    margin-bottom: 10px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__alert {
+    color: red;
   }
 }

@@ -13,7 +13,11 @@ export type TPropsInput = {
 };
 
 export type TStateForm = {
-  isFormValid: boolean;
+  isNameValid: boolean;
+  isSurnameValid: boolean;
+  isAgree: boolean;
+  isCommentValid: boolean;
+  isCategorySelected: boolean;
   commentsArr: Array<TCommentObj>;
 };
 
