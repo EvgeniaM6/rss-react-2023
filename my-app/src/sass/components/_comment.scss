@@ -1,0 +1,11 @@
+.comment {
+  &__images {
+    display: flex;
+    flex-wrap: wrap;
+
+    &-photo {
+      width: 270px;
+      padding: 5px;
+    }
+  }
+}

@@ -1,4 +1,14 @@
-import { TProps, TPropsObj, TPropsHandle, TPropsInput, TStateForm } from 'models/component.model';
+import { TProps, TPropsObj, TPropsHandle, TPropsInput } from 'models/component.model';
+import { TCheckValidityRes, TCommentObj, TStateForm } from './form.model';
 import { IGood } from './good.model';
 
-export { TProps, TPropsObj, IGood, TPropsHandle, TPropsInput, TStateForm };
+export {
+  TProps,
+  TPropsObj,
+  IGood,
+  TPropsHandle,
+  TPropsInput,
+  TStateForm,
+  TCommentObj,
+  TCheckValidityRes,
+};

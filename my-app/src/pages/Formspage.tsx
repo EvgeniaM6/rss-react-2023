@@ -1,8 +1,10 @@
 import React, { Component, FormEvent } from 'react';
-import { TPropsHandle, TStateForm } from 'models';
-import { COMMENT_TEXT_LENGTH } from '../constants';
+import { TCheckValidityRes, TCommentObj, TPropsHandle, TStateForm } from 'models';
+import { CATEGORIES_TITLES_ARR, COMMENT_TEXT_LENGTH } from '../constants';
+import { Comment } from '../components/Comment';
 
 export class Formspage extends Component<TPropsHandle, TStateForm> {
+  private formComment: React.RefObject<HTMLFormElement> = React.createRef();
   private nameInput: React.RefObject<HTMLInputElement> = React.createRef();
   private surnameInput: React.RefObject<HTMLInputElement> = React.createRef();
   private birthdayInput: React.RefObject<HTMLInputElement> = React.createRef();
@@ -26,13 +28,58 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
     };
   }
 
-  handleSubmit(event: FormEvent) {
+  handleSubmit(event: FormEvent): void {
     event.preventDefault();
 
-    this.checkFormValidity();
+    this.checkFormValidity().then((checkValidityRes) => {
+      console.log('this.state=', this.state);
+      const { isNameValid, isSurnameValid, isAgree, isCommentValid, isCategorySelected } =
+        this.state;
+
+      if (!isNameValid || !isSurnameValid || !isAgree || !isCommentValid || !isCategorySelected) {
+        return;
+      }
+
+      this.saveComment(checkValidityRes).then(() => {
+        const formElem = this.formComment.current;
+        if (!formElem) return;
+        formElem.reset();
+      });
+    });
   }
 
-  checkFormValidity(): void {
+  async saveComment(checkValidityRes: TCheckValidityRes): Promise<void> {
+    const { name, surname, comment } = checkValidityRes;
+
+    const userSex = this.radioMaleInput.current?.checked
+      ? this.radioMaleInput.current.value
+      : this.radioFemaleInput.current?.value;
+    const categoriesArr = Array.from(this.categorySelect.current?.selectedOptions || []).map(
+      (option) => option.value
+    );
+    const filesArr = Array.from(this.fileInput.current?.files || []).map((file) =>
+      URL.createObjectURL(file)
+    );
+
+    const newComment: TCommentObj = {
+      commentDate: new Date().toLocaleString(),
+      name: name,
+      surname: surname,
+      birthday: this.birthdayInput.current?.value || '',
+      sex: userSex || 'male',
+      goodCategories: categoriesArr,
+      commentText: comment,
+      photos: filesArr,
+      isAgree: true,
+    };
+    console.log('newComment=', newComment);
+
+    this.setState((state) => {
+      return { commentsArr: [...state.commentsArr, newComment] };
+    });
+  }
+
+  async checkFormValidity(): Promise<TCheckValidityRes> {
     const name = this.nameInput.current?.value || '';
     const isNameValid = name.match(new RegExp(/[A-ZА-Я][a-zа-я]+/));
     this.setState({ isNameValid: !!name && !!isNameValid });
@@ -50,6 +97,8 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
 
     const isCategorySelected = this.categorySelect.current?.selectedOptions.length !== 0 || false;
     this.setState({ isCategorySelected: isCategorySelected });
+
+    return { name, surname, comment };
   }
 
   componentDidMount(): void {
@@ -59,48 +108,102 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
   render() {
     return (
       <div className="container forms-page">
-        <div>Leave us a comment about your latest purchase from our store</div>
-        <form className="form" onSubmit={this.handleSubmit}>
-          <fieldset className="form__field">
-            <label htmlFor="user-name">*Name:</label>
-            <input type="text" id="user-name" placeholder="Mikle" ref={this.nameInput} />
-            {!this.state.isNameValid && (
-              <div className="form__alert">The first letter of the name must be capitalized</div>
-            )}
-          </fieldset>
-          <fieldset className="form__field">
-            <label htmlFor="user-surname">*Surname:</label>
-            <input type="text" id="user-surname" placeholder="Brown" ref={this.surnameInput} />
-            {!this.state.isSurnameValid && (
-              <div className="form__alert">The first letter of the surname must be capitalized</div>
-            )}
-          </fieldset>
-          <fieldset className="form__field">
-            <label htmlFor="birthday">Birthday:</label>
-            <input type="date" name="birthday" id="birthday" ref={this.birthdayInput} />
-          </fieldset>
-          <fieldset className="form__field">
-            <p>*Sex:</p>
-            <input
-              type="radio"
-              name="sex"
-              id="male"
-              defaultChecked
-              value="male"
-              ref={this.radioMaleInput}
-            />
-            <label htmlFor="male">male</label>
-            <input type="radio" name="sex" id="female" value="female" ref={this.radioFemaleInput} />
-            <label htmlFor="female">female</label>
-          </fieldset>
-          <fieldset className="form__field">
+        <h3 className="forms-page__title">
+          Leave us a comment about your latest purchase from our store
+        </h3>
+        <form className="form" onSubmit={this.handleSubmit} ref={this.formComment}>
+          <div className="form__full-name">
+            <fieldset className="form__field name">
+              <label htmlFor="user-name" className="name__label">
+                *Name:
+              </label>
+              <input
+                type="text"
+                id="user-name"
+                placeholder="Mikle"
+                className="name__input"
+                ref={this.nameInput}
+              />
+              {!this.state.isNameValid && (
+                <div className="form__alert">The first letter of the name must be capitalized</div>
+              )}
+            </fieldset>
+            <fieldset className="form__field surname">
+              <label htmlFor="user-surname" className="surname__label">
+                *Surname:
+              </label>
+              <input
+                type="text"
+                id="user-surname"
+                className="surname__input"
+                placeholder="Brown"
+                ref={this.surnameInput}
+              />
+              {!this.state.isSurnameValid && (
+                <div className="form__alert">
+                  The first letter of the surname must be capitalized
+                </div>
+              )}
+            </fieldset>
+          </div>
+          <div className="form__person-details">
+            <fieldset className="form__field birthday">
+              <label htmlFor="birthday" className="birthday__label">
+                Birthday:
+              </label>
+              <input
+                type="date"
+                className="birthday__input"
+                min="1900-01-01"
+                max="2013-01-01"
+                name="birthday"
+                id="birthday"
+                ref={this.birthdayInput}
+              />
+            </fieldset>
+            <fieldset className="form__field sex">
+              <p className="sex__title">*Sex:</p>
+              <div className="sex__content">
+                <input
+                  type="radio"
+                  name="sex"
+                  id="male"
+                  className="sex__input"
+                  defaultChecked
+                  value="male"
+                  ref={this.radioMaleInput}
+                />
+                <label htmlFor="male" className="sex__label">
+                  male
+                </label>
+                <input
+                  type="radio"
+                  name="sex"
+                  id="female"
+                  className="sex__input"
+                  value="female"
+                  ref={this.radioFemaleInput}
+                />
+                <label htmlFor="female" className="sex__label">
+                  female
+                </label>
+              </div>
+            </fieldset>
+          </div>
+          <fieldset className="form__field category">
             <p>*Select the category/s of the item(s) you purchased</p>
-            <select name="dd" id="dd" multiple ref={this.categorySelect}>
-              <option value="hoodie">hoodie</option>
-              <option value="sweatshirt">sweatshirt</option>
-              <option value="t-shirt">t-shirt</option>
-              <option value="skirt">skirt</option>
-              <option value="dress">dress</option>
+            <select
+              name="dd"
+              id="dd"
+              multiple
+              className="category__select"
+              ref={this.categorySelect}
+            >
+              {CATEGORIES_TITLES_ARR.map((category) => (
+                <option key={category} value={category} className="category__option">
+                  {category}
+                </option>
+              ))}
             </select>
             {!this.state.isCategorySelected && (
               <div className="form__alert">Choose at least 1 category</div>
@@ -113,9 +216,19 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
               <div className="form__alert">Comment length must be at least 10 characters</div>
             )}
           </fieldset>
-          <fieldset className="form__field">
-            <label htmlFor="photos">Show photos of our product that you bought</label>
-            <input type="file" multiple name="photos" id="photos" ref={this.fileInput} />
+          <fieldset className="form__field photos">
+            <label htmlFor="photos" className="photos__label">
+              Show photos of our product that you bought
+            </label>
+            <input
+              type="file"
+              accept="image/png, image/jpeg"
+              className="photos__input"
+              multiple
+              name="photos"
+              id="photos"
+              ref={this.fileInput}
+            />
           </fieldset>
           <fieldset className="form__field">
             <input type="checkbox" name="agree-data" id="agree-data" ref={this.agreeInput} />
@@ -127,7 +240,11 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
           <div>Required fields are marked *</div>
           <input type="submit" value="Submit" />
         </form>
-        <div></div>
+        <div>
+          {this.state.commentsArr.map((commentObj) => {
+            return <Comment key={commentObj.commentDate} commentObj={commentObj} />;
+          })}
+        </div>
       </div>
     );
   }
