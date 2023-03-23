@@ -1,6 +1,7 @@
 export type TStateForm = {
   isNameValid: boolean;
   isSurnameValid: boolean;
+  isSexSelected: boolean;
   isAgree: boolean;
   isCommentValid: boolean;
   isCategorySelected: boolean;

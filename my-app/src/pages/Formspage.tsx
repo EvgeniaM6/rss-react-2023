@@ -21,6 +21,7 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
     this.state = {
       isNameValid: true,
       isSurnameValid: true,
+      isSexSelected: true,
       isAgree: true,
       isCommentValid: true,
       isCategorySelected: true,
@@ -33,10 +34,23 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
 
     this.checkFormValidity().then((checkValidityRes) => {
       console.log('this.state=', this.state);
-      const { isNameValid, isSurnameValid, isAgree, isCommentValid, isCategorySelected } =
-        this.state;
+      const {
+        isNameValid,
+        isSurnameValid,
+        isSexSelected,
+        isAgree,
+        isCommentValid,
+        isCategorySelected,
+      } = this.state;
 
-      if (!isNameValid || !isSurnameValid || !isAgree || !isCommentValid || !isCategorySelected) {
+      if (
+        !isNameValid ||
+        !isSurnameValid ||
+        !isSexSelected ||
+        !isAgree ||
+        !isCommentValid ||
+        !isCategorySelected
+      ) {
         return;
       }
 
@@ -88,6 +102,10 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
     const isSurnameValid = surname.match(new RegExp(/[A-ZА-Я][a-zа-я]+/));
     this.setState({ isSurnameValid: !!surname || !!isSurnameValid });
 
+    const maleSex = this.radioMaleInput.current?.checked;
+    const femaleSex = this.radioFemaleInput.current?.checked;
+    this.setState({ isSexSelected: !!maleSex || !!femaleSex });
+
     this.setState({ isAgree: this.agreeInput.current?.checked || false });
 
     const commentInputEl = this.commentInput.current;
@@ -115,7 +133,8 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
           <div className="form__full-name">
             <fieldset className="form__field name">
               <label htmlFor="user-name" className="name__label">
-                *Name:
+                <span className="form__alert">*</span>
+                Name:
               </label>
               <input
                 type="text"
@@ -130,7 +149,8 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
             </fieldset>
             <fieldset className="form__field surname">
               <label htmlFor="user-surname" className="surname__label">
-                *Surname:
+                <span className="form__alert">*</span>
+                Surname:
               </label>
               <input
                 type="text"
@@ -162,14 +182,16 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
               />
             </fieldset>
             <fieldset className="form__field sex">
-              <p className="sex__title">*Sex:</p>
+              <p className="sex__title">
+                <span className="form__alert">*</span>
+                Sex:
+              </p>
               <div className="sex__content">
                 <input
                   type="radio"
                   name="sex"
                   id="male"
                   className="sex__input"
-                  defaultChecked
                   value="male"
                   ref={this.radioMaleInput}
                 />
@@ -188,10 +210,14 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
                   female
                 </label>
               </div>
+              {!this.state.isSexSelected && <div className="form__alert">Choose sex</div>}
             </fieldset>
           </div>
           <fieldset className="form__field category">
-            <p>*Select the category/s of the item(s) you purchased</p>
+            <p>
+              <span className="form__alert">*</span>
+              Select the category/s of the item(s) you purchased
+            </p>
             <select
               name="dd"
               id="dd"
@@ -209,9 +235,17 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
               <div className="form__alert">Choose at least 1 category</div>
             )}
           </fieldset>
-          <fieldset className="form__field">
-            <label htmlFor="comment">*Your comment (at least 10 symbols):</label>
-            <textarea name="comment" id="comment" ref={this.commentInput}></textarea>
+          <fieldset className="form__field comment-text">
+            <label htmlFor="comment" className="comment-text__label">
+              <span className="form__alert">*</span>
+              Your comment (at least 10 symbols):
+            </label>
+            <textarea
+              name="comment"
+              id="comment"
+              className="comment-text__textarea"
+              ref={this.commentInput}
+            ></textarea>
             {!this.state.isCommentValid && (
               <div className="form__alert">Comment length must be at least 10 characters</div>
             )}
@@ -230,15 +264,30 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
               ref={this.fileInput}
             />
           </fieldset>
-          <fieldset className="form__field">
-            <input type="checkbox" name="agree-data" id="agree-data" ref={this.agreeInput} />
-            <label htmlFor="agree-data">*I consent to my personal data</label>
+          <fieldset className="form__field agree">
+            <div className="form__agree-block">
+              <input
+                type="checkbox"
+                name="agree-data"
+                id="agree-data"
+                className="agree__input"
+                ref={this.agreeInput}
+              />
+              <label htmlFor="agree-data" className="agree__label">
+                <span className="form__alert">*</span>I consent to my personal data
+              </label>
+            </div>
             {!this.state.isAgree && (
               <div className="form__alert">We cannot accept data without your consent</div>
             )}
           </fieldset>
-          <div>Required fields are marked *</div>
-          <input type="submit" value="Submit" />
+          <div className="form__required">
+            Required fields are marked with
+            <span className="form__alert"> *</span>
+          </div>
+          <button type="submit" className="form__submit">
+            Submit
+          </button>
         </form>
         <div>
           {this.state.commentsArr.map((commentObj) => {
