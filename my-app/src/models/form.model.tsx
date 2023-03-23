@@ -1,4 +1,5 @@
 export type TStateForm = {
+  shouldShowConfirm: boolean;
   isNameValid: boolean;
   isSurnameValid: boolean;
   isSexSelected: boolean;

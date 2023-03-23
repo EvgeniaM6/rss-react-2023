@@ -1,7 +1,70 @@
 .comment {
+  margin-bottom: 20px;
+  padding: 10px;
+  display: flex;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+
+  @include media-tablet {
+    flex-direction: column;
+  }
+
+  &__person {
+    background: $color-main;
+    padding: 10px;
+    text-align: start;
+    width: 20%;
+
+    @include media-tablet {
+      width: 100%;
+    }
+  }
+
+  &__name {
+    font-weight: 700;
+    overflow: auto;
+  }
+
+  &__content {
+    padding: 10px;
+    text-align: start;
+    width: 80%;
+
+    @include media-tablet {
+      width: 100%;
+    }
+  }
+
+  &__categories {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &__category {
+    padding: 5px 10px;
+    margin: 0 5px 5px 0;
+    border-radius: 15px;
+    background-color: $color-bright;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__text {
+    overflow: auto;
+    padding: 10px 0;
+  }
+
   &__images {
     display: flex;
     flex-wrap: wrap;
+    max-height: 1000px;
+    overflow: auto;
+
+    @include media-tablet {
+      max-height: 530px;
+    }
 
     &-photo {
       width: 270px;

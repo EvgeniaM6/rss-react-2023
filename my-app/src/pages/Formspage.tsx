@@ -19,6 +19,7 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
+      shouldShowConfirm: false,
       isNameValid: true,
       isSurnameValid: true,
       isSexSelected: true,
@@ -33,7 +34,6 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
     event.preventDefault();
 
     this.checkFormValidity().then((checkValidityRes) => {
-      console.log('this.state=', this.state);
       const {
         isNameValid,
         isSurnameValid,
@@ -57,6 +57,7 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
       this.saveComment(checkValidityRes).then(() => {
         const formElem = this.formComment.current;
         if (!formElem) return;
+        this.setState({ shouldShowConfirm: true });
         formElem.reset();
       });
     });
@@ -75,8 +76,10 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
       URL.createObjectURL(file)
     );
 
+    const currDate = new Date();
+
     const newComment: TCommentObj = {
-      commentDate: new Date().toLocaleString(),
+      commentDate: `${currDate.toLocaleDateString()}-${currDate.toLocaleTimeString()}`,
       name: name,
       surname: surname,
       birthday: this.birthdayInput.current?.value || '',
@@ -86,7 +89,6 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
       photos: filesArr,
       isAgree: true,
     };
-    console.log('newComment=', newComment);
 
     this.setState((state) => {
       return { commentsArr: [...state.commentsArr, newComment] };
@@ -289,11 +291,13 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
             Submit
           </button>
         </form>
-        <div>
+        <div className="forms-page__comments">
+          <h3 className="forms-page__title">Comments</h3>
           {this.state.commentsArr.map((commentObj) => {
             return <Comment key={commentObj.commentDate} commentObj={commentObj} />;
           })}
         </div>
+        {this.state.shouldShowConfirm && <div className="popup"></div>}
       </div>
     );
   }
