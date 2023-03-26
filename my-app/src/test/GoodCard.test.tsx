@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { GoodCard } from '../components/GoodCard';
+import { GoodCard } from '../components/goods/GoodCard';
 
 describe('GoodCard', () => {
   const mochaGood = {

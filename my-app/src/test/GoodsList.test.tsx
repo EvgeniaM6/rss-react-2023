@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { GoodsList } from '../components/GoodsList';
+import { GoodsList } from '../components/goods/GoodsList';
 import { dataBase } from '../data/data';
 
 describe('GoodsList', () => {

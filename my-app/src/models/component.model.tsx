@@ -7,7 +7,7 @@ export type TPropsObj = {
 };
 
 export type TPropsHandle = {
-  [key: string]: () => void;
+  [key: string]: (page: string) => void;
 };
 
 export type TPropsComment = {

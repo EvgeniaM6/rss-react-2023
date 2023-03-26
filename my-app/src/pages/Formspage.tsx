@@ -3,6 +3,7 @@ import { TCheckValidityRes, TCommentObj, TPropsHandle, TStateForm } from '../mod
 import { CATEGORIES_TITLES_ARR, COMMENT_TEXT_LENGTH } from '../constants';
 import { Comment } from '../components/form/Comment';
 import { Confirm } from '../components/form/Confirm';
+import { PAGES } from '../constants/pages';
 
 export class Formspage extends Component<TPropsHandle, TStateForm> {
   private formComment: React.RefObject<HTMLFormElement> = React.createRef();
@@ -150,7 +151,7 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
   }
 
   componentDidMount(): void {
-    this.props.handleOpenPage();
+    this.props.handleOpenPage(PAGES.forms);
   }
 
   render() {

@@ -4,24 +4,22 @@ import { Aboutpage, Errorpage, Formspage, Homepage } from '../../pages';
 import Layout from './Layout';
 import Footer from './Footer';
 import { TProps } from '../../models';
+import { PAGES } from '../../constants/pages';
 
 export default class App extends Component<TProps, TProps> {
   constructor(props: TProps) {
     super(props);
 
-    const currPath = location.pathname;
     this.state = {
-      currentPage: currPath === '/' ? 'main' : currPath.slice(1),
+      currentPage: PAGES.home,
     };
 
     this.handleOpenPage = this.handleOpenPage.bind(this);
   }
 
-  handleOpenPage() {
-    const currPath = location.pathname;
-
+  handleOpenPage(page: string): void {
     this.setState({
-      currentPage: currPath === '/' ? 'main' : currPath.slice(1),
+      currentPage: page,
     });
   }
 
