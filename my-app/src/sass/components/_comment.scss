@@ -9,6 +9,10 @@
     flex-direction: column;
   }
 
+  @include media-mobile {
+    margin-bottom: 5px;
+  }
+
   &__person {
     background: $color-main;
     padding: 10px;
@@ -29,6 +33,7 @@
     padding: 10px;
     text-align: start;
     width: 80%;
+    border: solid 1px $color-main;
 
     @include media-tablet {
       width: 100%;
@@ -38,6 +43,8 @@
   &__categories {
     display: flex;
     flex-wrap: wrap;
+    font-family: Poppins, sans-serif;
+    font-size: 14px;
   }
 
   &__category {
@@ -64,6 +71,10 @@
 
     @include media-tablet {
       max-height: 530px;
+    }
+
+    @include media-mobile {
+      max-height: 200px;
     }
 
     &-photo {

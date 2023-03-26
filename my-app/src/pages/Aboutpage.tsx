@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TPropsHandle } from 'models';
+import { TPropsHandle } from '../models';
 
 export class Aboutpage extends Component<TPropsHandle> {
   componentDidMount(): void {

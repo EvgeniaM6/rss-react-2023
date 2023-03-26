@@ -2,18 +2,19 @@ export type TStateForm = {
   shouldShowConfirm: boolean;
   isNameValid: boolean;
   isSurnameValid: boolean;
+  isBirthdayValid: boolean;
   isSexSelected: boolean;
   isAgree: boolean;
   isCommentValid: boolean;
+  isFilesSelected: boolean;
   isCategorySelected: boolean;
-  commentsArr: Array<TCommentObj>;
 };
 
 export type TCommentObj = {
   commentDate: string;
   name: string;
   surname: string;
-  birthday?: string;
+  birthday: string;
   sex: string;
   goodCategories: string[];
   commentText: string;
@@ -24,5 +25,7 @@ export type TCommentObj = {
 export type TCheckValidityRes = {
   name: string;
   surname: string;
+  birthday: string;
+  sex: string;
   comment: string;
 };

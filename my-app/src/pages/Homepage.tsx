@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Search } from '../components/Search';
-import { GoodsList } from '../components/GoodsList';
-import { TPropsHandle } from 'models';
+import { Search } from '../components/goods/Search';
+import { GoodsList } from '../components/goods/GoodsList';
+import { TPropsHandle } from '../models';
 
 export class Homepage extends Component<TPropsHandle> {
   componentDidMount(): void {

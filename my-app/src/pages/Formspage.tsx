@@ -1,7 +1,8 @@
 import React, { Component, FormEvent } from 'react';
-import { TCheckValidityRes, TCommentObj, TPropsHandle, TStateForm } from 'models';
+import { TCheckValidityRes, TCommentObj, TPropsHandle, TStateForm } from '../models';
 import { CATEGORIES_TITLES_ARR, COMMENT_TEXT_LENGTH } from '../constants';
-import { Comment } from '../components/Comment';
+import { Comment } from '../components/form/Comment';
+import { Confirm } from '../components/form/Confirm';
 
 export class Formspage extends Component<TPropsHandle, TStateForm> {
   private formComment: React.RefObject<HTMLFormElement> = React.createRef();
@@ -18,15 +19,17 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
   constructor(props: TPropsHandle) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onClose = this.onClose.bind(this);
     this.state = {
       shouldShowConfirm: false,
       isNameValid: true,
       isSurnameValid: true,
+      isBirthdayValid: true,
       isSexSelected: true,
-      isAgree: true,
-      isCommentValid: true,
       isCategorySelected: true,
-      commentsArr: [],
+      isCommentValid: true,
+      isFilesSelected: true,
+      isAgree: true,
     };
   }
 
@@ -34,47 +37,48 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
     event.preventDefault();
 
     this.checkFormValidity().then((checkValidityRes) => {
+      if (!checkValidityRes) return;
+
       const {
         isNameValid,
         isSurnameValid,
+        isBirthdayValid,
         isSexSelected,
-        isAgree,
-        isCommentValid,
         isCategorySelected,
+        isCommentValid,
+        isFilesSelected,
+        isAgree,
       } = this.state;
 
       if (
         !isNameValid ||
         !isSurnameValid ||
         !isSexSelected ||
-        !isAgree ||
+        !isBirthdayValid ||
+        !isCategorySelected ||
         !isCommentValid ||
-        !isCategorySelected
+        !isFilesSelected ||
+        !isAgree
       ) {
         return;
       }
 
-      this.saveComment(checkValidityRes).then(() => {
-        const formElem = this.formComment.current;
-        if (!formElem) return;
-        this.setState({ shouldShowConfirm: true });
-        formElem.reset();
-      });
+      this.saveComment(checkValidityRes);
+
+      const formElem = this.formComment.current;
+      if (!formElem) return;
+      this.setState({ shouldShowConfirm: true });
+      formElem.reset();
     });
   }
 
-  async saveComment(checkValidityRes: TCheckValidityRes): Promise<void> {
-    const { name, surname, comment } = checkValidityRes;
+  saveComment(checkValidityRes: TCheckValidityRes): void {
+    const { name, surname, birthday, sex, comment } = checkValidityRes;
 
-    const userSex = this.radioMaleInput.current?.checked
-      ? this.radioMaleInput.current.value
-      : this.radioFemaleInput.current?.value;
-    const categoriesArr = Array.from(this.categorySelect.current?.selectedOptions || []).map(
-      (option) => option.value
-    );
-    const filesArr = Array.from(this.fileInput.current?.files || []).map((file) =>
-      URL.createObjectURL(file)
-    );
+    const selectedOptions = this.categorySelect.current?.selectedOptions;
+    const categoriesArr = Array.from(selectedOptions || []).map((option) => option.value);
+    const files = this.fileInput.current?.files;
+    const filesArr = Array.from(files || []).map((file) => URL.createObjectURL(file));
 
     const currDate = new Date();
 
@@ -82,31 +86,43 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
       commentDate: `${currDate.toLocaleDateString()}-${currDate.toLocaleTimeString()}`,
       name: name,
       surname: surname,
-      birthday: this.birthdayInput.current?.value || '',
-      sex: userSex || 'male',
+      birthday: birthday,
+      sex: sex,
       goodCategories: categoriesArr,
       commentText: comment,
       photos: filesArr,
       isAgree: true,
     };
 
-    this.setState((state) => {
-      return { commentsArr: [...state.commentsArr, newComment] };
-    });
+    commentsArr.push(newComment);
   }
 
-  async checkFormValidity(): Promise<TCheckValidityRes> {
+  async checkFormValidity(): Promise<TCheckValidityRes | null> {
     const name = this.nameInput.current?.value || '';
     const isNameValid = name.match(new RegExp(/[A-ZА-Я][a-zа-я]+/));
     this.setState({ isNameValid: !!name && !!isNameValid });
 
     const surname = this.surnameInput.current?.value || '';
     const isSurnameValid = surname.match(new RegExp(/[A-ZА-Я][a-zа-я]+/));
-    this.setState({ isSurnameValid: !!surname || !!isSurnameValid });
+    this.setState({ isSurnameValid: !!surname && !!isSurnameValid });
 
-    const maleSex = this.radioMaleInput.current?.checked;
-    const femaleSex = this.radioFemaleInput.current?.checked;
-    this.setState({ isSexSelected: !!maleSex || !!femaleSex });
+    const birthday = this.birthdayInput.current?.value || '';
+    const [year, month, date] = birthday.split('-');
+    const birthdayDate = new Date(+year, +month - 1, +date);
+    const currDate = new Date();
+    const majorityDate = new Date(
+      currDate.getFullYear() - 18,
+      currDate.getMonth(),
+      currDate.getDate() + 1
+    );
+    const isBirthdayValid = majorityDate.getTime() > birthdayDate.getTime();
+    this.setState({ isBirthdayValid: !!birthday && !!isBirthdayValid });
+
+    const maleSexInput = this.radioMaleInput.current;
+    const femaleSexInput = this.radioFemaleInput.current;
+    if (!maleSexInput || !femaleSexInput) return null;
+    this.setState({ isSexSelected: !!maleSexInput.checked || !!femaleSexInput.checked });
+    const sex = maleSexInput.checked ? maleSexInput.value : femaleSexInput.value;
 
     this.setState({ isAgree: this.agreeInput.current?.checked || false });
 
@@ -115,10 +131,22 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
     const commentLength = comment.length;
     this.setState({ isCommentValid: commentLength >= COMMENT_TEXT_LENGTH });
 
-    const isCategorySelected = this.categorySelect.current?.selectedOptions.length !== 0 || false;
+    const filesInput = this.fileInput.current;
+    if (!filesInput) return null;
+    const areFilesSelected = Array.from(filesInput.files || []).every((file) => {
+      const fileType = (file as File).type;
+      return fileType === 'image/png' || fileType === 'image/jpeg';
+    });
+    this.setState({ isFilesSelected: !!filesInput.files?.length && areFilesSelected });
+
+    const isCategorySelected = !!this.categorySelect.current?.selectedOptions.length || false;
     this.setState({ isCategorySelected: isCategorySelected });
 
-    return { name, surname, comment };
+    return { name, surname, comment, birthday, sex };
+  }
+
+  onClose(): void {
+    this.setState({ shouldShowConfirm: false });
   }
 
   componentDidMount(): void {
@@ -171,17 +199,19 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
           <div className="form__person-details">
             <fieldset className="form__field birthday">
               <label htmlFor="birthday" className="birthday__label">
+                <span className="form__alert">*</span>
                 Birthday:
               </label>
               <input
                 type="date"
                 className="birthday__input"
-                min="1900-01-01"
-                max="2013-01-01"
                 name="birthday"
                 id="birthday"
                 ref={this.birthdayInput}
               />
+              {!this.state.isBirthdayValid && (
+                <div className="form__alert">You must be over 18 years of age.</div>
+              )}
             </fieldset>
             <fieldset className="form__field sex">
               <p className="sex__title">
@@ -254,17 +284,20 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
           </fieldset>
           <fieldset className="form__field photos">
             <label htmlFor="photos" className="photos__label">
+              <span className="form__alert">*</span>
               Show photos of our product that you bought
             </label>
             <input
               type="file"
-              accept="image/png, image/jpeg"
               className="photos__input"
               multiple
               name="photos"
               id="photos"
               ref={this.fileInput}
             />
+            {!this.state.isFilesSelected && (
+              <div className="form__alert">Choose at least 1 photo</div>
+            )}
           </fieldset>
           <fieldset className="form__field agree">
             <div className="form__agree-block">
@@ -293,12 +326,16 @@ export class Formspage extends Component<TPropsHandle, TStateForm> {
         </form>
         <div className="forms-page__comments">
           <h3 className="forms-page__title">Comments</h3>
-          {this.state.commentsArr.map((commentObj) => {
+          {commentsArr.map((commentObj) => {
             return <Comment key={commentObj.commentDate} commentObj={commentObj} />;
           })}
         </div>
-        {this.state.shouldShowConfirm && <div className="popup"></div>}
+        {this.state.shouldShowConfirm && (
+          <Confirm onClose={this.onClose} form={commentsArr[commentsArr.length - 1]} />
+        )}
       </div>
     );
   }
 }
+
+const commentsArr: TCommentObj[] = [];

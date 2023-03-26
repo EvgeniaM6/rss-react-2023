@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { TProps } from 'models';
+import { TProps } from '../../models';
 
 export default class Layout extends Component<TProps> {
   render() {

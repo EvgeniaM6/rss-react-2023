@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TCommentObj } from '../models';
+import { TCommentObj } from '../../models';
 
 export class Comment extends Component<{ commentObj: TCommentObj }> {
   render() {
