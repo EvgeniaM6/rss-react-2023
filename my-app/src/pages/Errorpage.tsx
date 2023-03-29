@@ -4,8 +4,9 @@ import { PAGES } from '../constants/pages';
 
 export function Errorpage(props: TPropsHandle) {
   useEffect(() => {
-    props.handleOpenPage(PAGES.error);
-  }, []);
+    const showPageName = (page: string) => props.handleOpenPage(page);
+    showPageName(PAGES.error);
+  }, [props]);
 
   return (
     <div className="container error-page">

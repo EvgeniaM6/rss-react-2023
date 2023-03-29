@@ -4,8 +4,9 @@ import { PAGES } from '../constants/pages';
 
 export function Aboutpage(props: TPropsHandle) {
   useEffect(() => {
-    props.handleOpenPage(PAGES.about);
-  }, []);
+    const showPageName = (page: string) => props.handleOpenPage(page);
+    showPageName(PAGES.about);
+  }, [props]);
 
   return (
     <div className="container about-page">
