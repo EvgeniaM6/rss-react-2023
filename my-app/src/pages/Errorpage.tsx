@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { TPropsHandle } from 'models';
+import { TPropsHandle } from '../models';
+import { PAGES } from '../constants/pages';
 
 export class Errorpage extends Component<TPropsHandle> {
   componentDidMount(): void {
-    this.props.handleOpenPage();
+    this.props.handleOpenPage(PAGES.error);
   }
 
   render() {

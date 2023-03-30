@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { IGood, TProps } from '../models';
+import { IGood, TProps } from '../../models';
 
 export class GoodCard extends Component<{ good: Readonly<IGood> }, TProps> {
   render() {

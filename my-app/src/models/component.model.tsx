@@ -1,3 +1,5 @@
+import { TCommentObj } from 'models';
+
 export type TProps = TPropsObj | Readonly<TPropsObj>;
 
 export type TPropsObj = {
@@ -5,5 +7,14 @@ export type TPropsObj = {
 };
 
 export type TPropsHandle = {
-  [key: string]: () => void;
+  [key: string]: (page: string) => void;
+};
+
+export type TPropsComment = {
+  onClose: () => void;
+  form: TCommentObj;
+};
+
+export type TPropsInput = {
+  nameInput: React.RefObject<HTMLInputElement>;
 };

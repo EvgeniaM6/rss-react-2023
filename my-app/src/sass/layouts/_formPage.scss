@@ -1,0 +1,170 @@
+.forms-page {
+  &__title {
+    font-family: Poppins, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 15px 0;
+  }
+}
+
+.form {
+  text-align: start;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+  }
+
+  input,
+  select,
+  textarea {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 16px;
+  }
+
+  &__full-name {
+    display: flex;
+    flex-wrap: wrap;
+
+    & .form__field {
+      max-width: 245px;
+    }
+  }
+
+  &__person-details {
+    display: flex;
+
+    @include media-mobile {
+      flex-direction: column;
+    }
+
+    .birthday {
+      &__input::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__field {
+    border: none;
+    padding: 0;
+    margin-bottom: 10px;
+  }
+
+  .sex {
+    &__content {
+      display: flex;
+    }
+
+    &__label,
+    &__input {
+      cursor: pointer;
+    }
+  }
+
+  .category {
+    &__select {
+      width: 490px;
+
+      @include media-mobile {
+        width: 280px;
+      }
+    }
+
+    &__option {
+      cursor: pointer;
+      transition: all .2s ease;
+
+      &:hover {
+        background-color: $color-main-hover;
+      }
+    }
+  }
+
+  .comment-text {
+    &__textarea {
+      width: 490px;
+      resize: vertical;
+  
+      @include media-mobile {
+        width: 280px;
+      }
+    }
+  }
+
+  .photos {
+    &__label {
+      cursor: pointer;
+    }
+
+    &__input {
+      width: 180px;
+
+      &::-webkit-file-upload-button {
+        visibility: hidden;
+      }
+
+      &::before {
+        content: 'Select some photos';
+        display: inline-block;
+        color: $color-font;
+        background: $color-main;
+        border-radius: 20px;
+        padding: 10px 20px;
+        outline: none;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        cursor: pointer;
+        font-weight: 400;
+        font-family: Poppins, sans-serif;
+        font-size: 14px;
+        transition: all .3s ease;
+      }
+
+      &:hover::before {
+        background: $color-main-hover;
+      }
+    }
+  }
+
+  &__agree-block {
+    display: flex;
+  }
+
+  .agree {
+    &__input,
+    &__label {
+      cursor: pointer;
+    }
+  }
+
+  &__required {
+    margin-bottom: 10px;
+  }
+
+  &__submit {
+    color: #ffffff;
+    background: $color-accent-dark;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    outline: none;
+    cursor: pointer;
+    font-weight: 200;
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+    transition: all .3s ease;
+
+    &:hover {
+      background: $color-bright;
+    }
+  }
+
+  &__alert {
+    color: $color-font-alert;
+    font-size: 14px;
+  }
+}

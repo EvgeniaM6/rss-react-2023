@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { GoodCard } from './GoodCard';
-import { dataBase } from '../data/data';
+import { dataBase } from '../../data/data';
 
 export class GoodsList extends Component {
   render() {
