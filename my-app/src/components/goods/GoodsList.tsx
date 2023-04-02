@@ -2,7 +2,7 @@ import React from 'react';
 import { GoodCard } from './GoodCard';
 import { dataBase } from '../../data/data';
 
-export function GoodsList() {
+export function GoodsList(): JSX.Element {
   return (
     <div className="goods">
       {dataBase.goods.map((goodObj) => (

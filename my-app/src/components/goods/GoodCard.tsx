@@ -1,7 +1,7 @@
 import React from 'react';
 import { IGood } from '../../models';
 
-export function GoodCard(props: { good: Readonly<IGood> }) {
+export function GoodCard(props: { good: Readonly<IGood> }): JSX.Element {
   const {
     imageUrl,
     name,

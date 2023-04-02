@@ -1,14 +1,14 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
-export function Search() {
-  const savedSearchVal = localStorage.getItem('searchValue') || '';
+export function Search(): JSX.Element {
+  const savedSearchVal: string = localStorage.getItem('searchValue') || '';
   const [searchVal, setSearchVal] = useState(savedSearchVal);
 
-  function handleChange(e: ChangeEvent) {
+  function handleChange(e: ChangeEvent): void {
     setSearchVal((e.target as HTMLInputElement).value);
   }
 
-  function handleSubmit(e: FormEvent) {
+  function handleSubmit(e: FormEvent): void {
     e.preventDefault();
   }
 

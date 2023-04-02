@@ -4,7 +4,7 @@ import { GoodsList } from '../components/goods/GoodsList';
 import { TPropsHandle } from '../models';
 import { PAGES } from '../constants/pages';
 
-export function Homepage(props: TPropsHandle) {
+export function Homepage(props: TPropsHandle): JSX.Element {
   useEffect(() => {
     const showPageName = (page: string) => props.handleOpenPage(page);
     showPageName(PAGES.home);

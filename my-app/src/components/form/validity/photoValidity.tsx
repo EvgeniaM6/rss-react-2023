@@ -1,11 +1,11 @@
 export function checkPhotoValidity(inputElem: HTMLInputElement | null): string[] {
   if (!inputElem) return [];
-  const filesList = inputElem?.files;
+  const filesList: FileList | null = inputElem?.files;
   if (!filesList) return [];
 
-  const filesArr = Array.from(filesList)
+  const filesArr: string[] = Array.from(filesList)
     .filter((file) => {
-      const fileType = (file as File).type;
+      const fileType: string = (file as File).type;
       return fileType === 'image/png' || fileType === 'image/jpeg';
     })
     .map((file) => {

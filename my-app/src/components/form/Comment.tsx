@@ -1,7 +1,7 @@
 import React from 'react';
 import { ICommentObj } from '../../models';
 
-export function Comment(props: { commentObj: ICommentObj }) {
+export function Comment(props: { commentObj: ICommentObj }): JSX.Element {
   const { commentDate, name, surname, sex, birthday, goodCategories, commentText, photosArr } =
     props.commentObj;
   const [date, time] = commentDate.split('-');

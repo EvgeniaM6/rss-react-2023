@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { TPropsHandle } from '../models';
 import { PAGES } from '../constants/pages';
 
-export function Errorpage(props: TPropsHandle) {
+export function Errorpage(props: TPropsHandle): JSX.Element {
   useEffect(() => {
     const showPageName = (page: string) => props.handleOpenPage(page);
     showPageName(PAGES.error);

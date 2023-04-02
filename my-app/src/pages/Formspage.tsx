@@ -5,7 +5,7 @@ import { Comment } from '../components/form/Comment';
 import { Confirm } from '../components/form/Confirm';
 import { PAGES } from '../constants/pages';
 
-export function Formspage(props: TFormPageProps) {
+export function Formspage(props: TFormPageProps): JSX.Element {
   const [shouldShowConfirm, setShouldShowConfirm] = useState(false);
 
   function onClose(): void {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TPropsComment } from '../../models';
 
-export function Confirm(props: TPropsComment) {
+export function Confirm(props: TPropsComment): JSX.Element {
   return (
     <div className="confirm">
       <div className="confirm__content">

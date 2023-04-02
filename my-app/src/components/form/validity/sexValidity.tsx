@@ -1,7 +1,7 @@
 export function checkSexValidity(inputElemsArr: Array<HTMLInputElement | null>): string {
-  let sex = '';
-  inputElemsArr.forEach((inputElem) => {
-    if (inputElem?.checked) sex = inputElem?.value;
-  });
+  const sex = inputElemsArr.reduce((acc, inputElem) => {
+    if (inputElem?.checked) acc = inputElem?.value;
+    return acc;
+  }, '');
   return sex;
 }

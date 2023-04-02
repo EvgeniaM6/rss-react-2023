@@ -3,10 +3,10 @@ import { Routes, Route } from 'react-router-dom';
 import { Aboutpage, Errorpage, Formspage, Homepage } from '../../pages';
 import { Layout } from './Layout';
 import { Footer } from './Footer';
-import { PAGES } from '../../constants/pages';
 import { ICommentObj } from 'models';
+import { PAGES } from '../../constants/pages';
 
-export function App() {
+export function App(): JSX.Element {
   const [currentPage, setCurrentPage] = useState(PAGES.home);
   const [commentsArr, setCommentsArr] = useState<ICommentObj[]>([]);
 

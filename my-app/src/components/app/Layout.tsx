@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { TProps } from '../../models';
 
-export function Layout(props: TProps) {
+export function Layout(props: TProps): JSX.Element {
   return (
     <header className="header" data-testid="header">
       <div className="container">

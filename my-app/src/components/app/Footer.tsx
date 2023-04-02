@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function Footer() {
+export function Footer(): JSX.Element {
   return (
     <footer className="footer" data-testid="footer">
       <div className="footer__links">
