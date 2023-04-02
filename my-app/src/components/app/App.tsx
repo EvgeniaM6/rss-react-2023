@@ -4,17 +4,17 @@ import { Aboutpage, Errorpage, Formspage, Homepage } from '../../pages';
 import { Layout } from './Layout';
 import { Footer } from './Footer';
 import { PAGES } from '../../constants/pages';
-import { TCommentObj } from 'models';
+import { ICommentObj } from 'models';
 
 export function App() {
   const [currentPage, setCurrentPage] = useState(PAGES.home);
-  const [commentsArr, setCommentsArr] = useState<TCommentObj[]>([]);
+  const [commentsArr, setCommentsArr] = useState<ICommentObj[]>([]);
 
   function handleOpenPage(page: string): void {
     setCurrentPage(page);
   }
 
-  function addComment(newComment: TCommentObj): void {
+  function addComment(newComment: ICommentObj): void {
     setCommentsArr([...commentsArr, newComment]);
   }
 

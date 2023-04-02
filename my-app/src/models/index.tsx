@@ -8,7 +8,7 @@ import {
 import {
   TCheckboxInputProps,
   TCheckValidityRes,
-  TCommentObj,
+  ICommentObj,
   TFileInputProps,
   TFormPageProps,
   TFormProps,
@@ -27,7 +27,7 @@ export {
   TPropsHandle,
   TPropsInput,
   TStateForm,
-  TCommentObj,
+  ICommentObj,
   TCheckValidityRes,
   TPropsComment,
   TFormProps,

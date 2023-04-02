@@ -1,8 +1,8 @@
 import React from 'react';
-import { TCommentObj } from '../../models';
+import { ICommentObj } from '../../models';
 
-export function Comment(props: { commentObj: TCommentObj }) {
-  const { commentDate, name, surname, sex, birthday, goodCategories, commentText, photos } =
+export function Comment(props: { commentObj: ICommentObj }) {
+  const { commentDate, name, surname, sex, birthday, goodCategories, commentText, photosArr } =
     props.commentObj;
   const [date, time] = commentDate.split('-');
 
@@ -23,9 +23,9 @@ export function Comment(props: { commentObj: TCommentObj }) {
           ))}
         </div>
         <div className="comment__text">{commentText}</div>
-        {!!photos.length && (
+        {!!photosArr.length && (
           <div className="comment__images">
-            {photos.map((photo) => (
+            {photosArr.map((photo) => (
               <img key={photo} className="comment__images-photo" src={photo} />
             ))}
           </div>

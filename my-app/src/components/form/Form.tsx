@@ -16,7 +16,7 @@ import {
   checkNameValidity,
   checkCommentValidity,
   checkPhotoValidity,
-  getNewComment,
+  checkCategoryValidity,
 } from './validity';
 
 export function Form(props: TFormProps) {
@@ -43,65 +43,60 @@ export function Form(props: TFormProps) {
   function handleSubmit(event: FormEvent): void {
     event.preventDefault();
 
-    const checkValidityRes = checkFormValidity();
+    const checkValidityRes: TCheckValidityRes = checkFormValidity();
     if (!checkValidityRes) return;
 
-    const {
-      name,
-      surname,
-      birthday,
-      sex,
-      isCategoryChoosed,
-      comment,
-      areFilesCorrect,
-      isAgreeChecked,
-    } = checkValidityRes;
+    const { name, surname, birthday, sex, goodCategories, commentText, photosArr, isAgree } =
+      checkValidityRes;
 
     const isFormInorrect =
       !name ||
       !surname ||
       !birthday ||
       !sex ||
-      !isCategoryChoosed ||
-      !comment ||
-      !areFilesCorrect ||
-      !isAgreeChecked;
+      !goodCategories.length ||
+      !commentText ||
+      !photosArr.length ||
+      !isAgree;
     if (isFormInorrect) return;
 
-    const newComment = getNewComment(checkValidityRes, categorySelect, fileInput);
+    const currDate = new Date();
+    const commentDate = `${currDate.toLocaleDateString()}-${currDate.toLocaleTimeString()}`;
+    const newComment = { ...checkValidityRes, commentDate };
+
     props.addComment(newComment);
     props.onOpen();
     formComment.current?.reset();
   }
 
   function checkFormValidity(): TCheckValidityRes {
-    const name = checkNameValidity(nameInput);
-    const surname = checkNameValidity(surnameInput);
-    const birthday = checkBirthdayValidity(birthdayInput);
-    const sex = checkSexValidity([radioMaleInput, radioFemaleInput]);
-    const isCategoryChoosed = !!categorySelect.current?.selectedOptions.length;
-    const comment = checkCommentValidity(commentInput);
-    const areFilesCorrect = checkPhotoValidity(fileInput);
-    const isAgreeChecked = !!agreeInput.current?.checked;
+    const name = checkNameValidity(nameInput.current);
+    const surname = checkNameValidity(surnameInput.current);
+    const birthday = checkBirthdayValidity(birthdayInput.current);
+    const sex = checkSexValidity([radioMaleInput.current, radioFemaleInput.current]);
+    const goodCategories = checkCategoryValidity(categorySelect.current);
+    const commentText = checkCommentValidity(commentInput.current);
+    const photosArr = checkPhotoValidity(fileInput.current);
+    const isAgree = !!agreeInput.current?.checked;
 
     setIsNameCorrect(!!name);
     setIsSurnameCorrect(!!surname);
     setIsBirthdayCorrect(!!birthday);
     setIsSexSelected(!!sex);
-    setIsCategorySelected(isCategoryChoosed);
-    setIsCommentCorrect(!!comment);
-    setIsFilesSelected(areFilesCorrect);
-    setIsAgree(isAgreeChecked);
+    setIsCategorySelected(!!goodCategories.length);
+    setIsCommentCorrect(!!commentText);
+    setIsFilesSelected(!!photosArr.length);
+    setIsAgree(isAgree);
 
     return {
       name,
       surname,
       birthday,
       sex,
-      isCategoryChoosed,
-      comment,
-      areFilesCorrect,
-      isAgreeChecked,
+      goodCategories,
+      commentText,
+      photosArr,
+      isAgree,
     };
   }
 

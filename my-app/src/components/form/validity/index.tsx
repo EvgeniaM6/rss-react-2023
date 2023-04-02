@@ -3,7 +3,7 @@ import { checkSexValidity } from './sexValidity';
 import { checkNameValidity } from './nameValidity';
 import { checkCommentValidity } from './commentValidity';
 import { checkPhotoValidity } from './photoValidity';
-import { getNewComment } from './getNewComment';
+import { checkCategoryValidity } from './categoryValidity';
 
 export {
   checkNameValidity,
@@ -11,5 +11,5 @@ export {
   checkSexValidity,
   checkCommentValidity,
   checkPhotoValidity,
-  getNewComment,
+  checkCategoryValidity,
 };

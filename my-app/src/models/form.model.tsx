@@ -12,28 +12,20 @@ export type TStateForm = {
   isCategorySelected: boolean;
 };
 
-export type TCommentObj = {
-  commentDate: string;
+export type TCheckValidityRes = {
   name: string;
   surname: string;
   birthday: string;
   sex: string;
   goodCategories: string[];
   commentText: string;
-  photos: string[];
+  photosArr: string[];
   isAgree: boolean;
 };
 
-export type TCheckValidityRes = {
-  name: string;
-  surname: string;
-  birthday: string;
-  sex: string;
-  isCategoryChoosed: boolean;
-  comment: string;
-  areFilesCorrect: boolean;
-  isAgreeChecked: boolean;
-};
+export interface ICommentObj extends TCheckValidityRes {
+  commentDate: string;
+}
 
 export type TTextInputProps = {
   id: string;
@@ -72,11 +64,11 @@ export type TCheckboxInputProps = ComponentPropsWithoutRef<'label'> & {
 
 export type TFormProps = {
   onOpen: () => void;
-  addComment: (newComment: TCommentObj) => void;
+  addComment: (newComment: ICommentObj) => void;
 };
 
 export type TFormPageProps = {
   handleOpenPage: (page: string) => void;
-  addComment: (newComment: TCommentObj) => void;
-  commentsArr: TCommentObj[];
+  addComment: (newComment: ICommentObj) => void;
+  commentsArr: ICommentObj[];
 };
