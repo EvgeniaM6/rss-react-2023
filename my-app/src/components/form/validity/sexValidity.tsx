@@ -1,9 +1,6 @@
-import { RefObject } from 'react';
-
-export function checkSexValidity(inputRefArr: RefObject<HTMLInputElement>[]): string {
+export function checkSexValidity(inputElemsArr: Array<HTMLInputElement | null>): string {
   let sex = '';
-  inputRefArr.forEach((inputRef) => {
-    const inputElem = inputRef.current;
+  inputElemsArr.forEach((inputElem) => {
     if (inputElem?.checked) sex = inputElem?.value;
   });
   return sex;

@@ -1,7 +1,5 @@
-import { RefObject } from 'react';
-
-export function checkBirthdayValidity(inputRef: RefObject<HTMLInputElement>): string {
-  const birthdayValue = inputRef.current?.value || '';
+export function checkBirthdayValidity(inputElem: HTMLInputElement | null): string {
+  const birthdayValue = inputElem?.value || '';
   const [year, month, date] = birthdayValue.split('-');
   const birthdayDate = new Date(+year, +month - 1, +date);
   const currDate = new Date();
