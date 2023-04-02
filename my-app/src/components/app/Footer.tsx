@@ -2,7 +2,7 @@ import React from 'react';
 
 export function Footer() {
   return (
-    <footer className="footer">
+    <footer className="footer" data-testid="footer">
       <div className="footer__links">
         <a href="https://github.com/EvgeniaM6" className="footer__element github">
           <div className="github__img"></div>

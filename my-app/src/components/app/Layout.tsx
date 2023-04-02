@@ -4,7 +4,7 @@ import { TProps } from '../../models';
 
 export function Layout(props: TProps) {
   return (
-    <header className="header">
+    <header className="header" data-testid="header">
       <div className="container">
         <NavLink to="/" className="header__link">
           Home
