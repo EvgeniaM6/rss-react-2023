@@ -17,6 +17,9 @@ import {
   TStateForm,
   TTextareaProps,
   TTextInputProps,
+  FormValues,
+  TDateInputProps,
+  TValidateObj,
 } from './form.model';
 import { IGood } from './good.model';
 
@@ -38,4 +41,7 @@ export {
   TTextareaProps,
   TFileInputProps,
   TCheckboxInputProps,
+  FormValues,
+  TDateInputProps,
+  TValidateObj,
 };

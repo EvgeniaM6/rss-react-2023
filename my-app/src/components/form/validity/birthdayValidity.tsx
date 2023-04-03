@@ -1,5 +1,11 @@
-export function checkBirthdayValidity(inputElem: HTMLInputElement | null): string {
-  const birthdayValue: string = inputElem?.value || '';
+import { TValidateObj } from 'models';
+
+export const birthdayValidity: TValidateObj = {
+  checking: checkBirthdayValidity,
+  message: 'You must be over 18 years of age',
+};
+
+function checkBirthdayValidity(birthdayValue: string): boolean {
   const [year, month, date] = birthdayValue.split('-');
   const birthdayDate: Date = new Date(+year, +month - 1, +date);
   const currDate: Date = new Date();
@@ -8,6 +14,6 @@ export function checkBirthdayValidity(inputElem: HTMLInputElement | null): strin
     currDate.getMonth(),
     currDate.getDate() + 1
   );
-  const birthday: string = majorityDate.getTime() > birthdayDate.getTime() ? birthdayValue : '';
+  const birthday: boolean = majorityDate.getTime() > birthdayDate.getTime();
   return birthday;
 }

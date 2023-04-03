@@ -1,38 +1,47 @@
-import React, { forwardRef, ForwardedRef } from 'react';
+import React from 'react';
 import { TFileInputProps } from '../../../models';
+import { checkPhotoValidity } from '../validity';
 
-export const FileInput = forwardRef(
-  (props: TFileInputProps, ref: ForwardedRef<HTMLInputElement>) => {
-    const { id, children, isMultiple, isValueCorrect } = props;
+export const FileInput = (props: TFileInputProps) => {
+  const { id, children, isMultiple, register, errors } = props;
+  const error = errors[id];
 
-    return (
-      <fieldset className={`form__field ${id}`}>
-        <label htmlFor={id} className={`${id}__label`}>
-          <span className="form__alert">*</span>
-          {children}
-        </label>
-        {isMultiple ? (
-          <input
-            type="file"
-            accept="image/jpeg,image/png"
-            className={`${id}__input`}
-            multiple
-            name={id}
-            id={id}
-            ref={ref}
-          />
-        ) : (
-          <input
-            type="file"
-            accept="image/jpeg,image/png"
-            className={`${id}__input`}
-            name={id}
-            id={id}
-            ref={ref}
-          />
-        )}
-        {!isValueCorrect && <div className="form__alert">Choose at least 1 file</div>}
-      </fieldset>
-    );
-  }
-);
+  return (
+    <fieldset className={`form__field ${id}`}>
+      <label htmlFor={id} className={`${id}__label`}>
+        <span className="form__alert">*</span>
+        {children}
+      </label>
+      {isMultiple ? (
+        <input
+          type="file"
+          accept="image/jpeg,image/png"
+          className={`${id}__input`}
+          multiple
+          id={id}
+          {...register(id, {
+            required: 'Choose at least 1 file',
+            validate: checkPhotoValidity,
+          })}
+        />
+      ) : (
+        <input
+          type="file"
+          accept="image/jpeg,image/png"
+          className={`${id}__input`}
+          id={id}
+          {...register(id, {
+            required: 'Choose at least 1 file',
+            validate: checkPhotoValidity,
+          })}
+        />
+      )}
+      {error && error.type === 'validate' && (
+        <div className="form__alert">Only &quot;.jpeg&quot; and &quot;.png&quot; types</div>
+      )}
+      {error && error.type !== 'validate' && (
+        <div className="form__alert">{`${error?.message}` || 'Error'}</div>
+      )}
+    </fieldset>
+  );
+};

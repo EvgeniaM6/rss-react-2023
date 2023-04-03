@@ -34,5 +34,4 @@ export function Search(): JSX.Element {
       </form>
     </div>
   );
-  // }
 }

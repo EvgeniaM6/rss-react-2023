@@ -1,5 +1,5 @@
-import React, { FormEvent, useRef, useState, RefObject } from 'react';
-import { ICommentObj, TCheckValidityRes, TFormProps } from '../../models';
+import React from 'react';
+import { FormValues, ICommentObj, TFormProps } from '../../models';
 import { CATEGORIES_TITLES_ARR } from '../../constants';
 import {
   TextInput,
@@ -10,127 +10,65 @@ import {
   FileInput,
   CheckboxInput,
 } from './inputs';
-import {
-  checkBirthdayValidity,
-  checkSexValidity,
-  checkNameValidity,
-  checkCommentValidity,
-  checkPhotoValidity,
-  checkCategoryValidity,
-} from './validity';
+import { birthdayValidity } from './validity';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 export function Form(props: TFormProps): JSX.Element {
-  const formComment: RefObject<HTMLFormElement> = useRef(null);
-  const nameInput: RefObject<HTMLInputElement> = useRef(null);
-  const surnameInput: RefObject<HTMLInputElement> = useRef(null);
-  const birthdayInput: RefObject<HTMLInputElement> = useRef(null);
-  const agreeInput: RefObject<HTMLInputElement> = useRef(null);
-  const radioMaleInput: RefObject<HTMLInputElement> = useRef(null);
-  const radioFemaleInput: RefObject<HTMLInputElement> = useRef(null);
-  const categorySelect: RefObject<HTMLSelectElement> = useRef(null);
-  const commentInput: RefObject<HTMLTextAreaElement> = useRef(null);
-  const fileInput: RefObject<HTMLInputElement> = useRef(null);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<FormValues>({ mode: 'onSubmit', reValidateMode: 'onSubmit' });
 
-  const [isNameCorrect, setIsNameCorrect] = useState(true);
-  const [isSurnameCorrect, setIsSurnameCorrect] = useState(true);
-  const [isBirthdayCorrect, setIsBirthdayCorrect] = useState(true);
-  const [isSexSelected, setIsSexSelected] = useState(true);
-  const [isCategorySelected, setIsCategorySelected] = useState(true);
-  const [isCommentCorrect, setIsCommentCorrect] = useState(true);
-  const [isFilesSelected, setIsFilesSelected] = useState(true);
-  const [isAgree, setIsAgree] = useState(true);
-
-  function handleSubmit(event: FormEvent): void {
-    event.preventDefault();
-
-    const checkValidityRes: TCheckValidityRes = checkFormValidity();
-    if (!checkValidityRes) return;
-
-    const { name, surname, birthday, sex, goodCategories, commentText, photosArr, isAgree } =
-      checkValidityRes;
-
-    const isFormInorrect: boolean =
-      !name ||
-      !surname ||
-      !birthday ||
-      !sex ||
-      !goodCategories.length ||
-      !commentText ||
-      !photosArr.length ||
-      !isAgree;
-    if (isFormInorrect) return;
+  const handleSubmitForm: SubmitHandler<FormValues> = (data) => {
+    const { name, surname, birthday, sex, category, commentText, photos, agree } = data;
 
     const currDate: Date = new Date();
     const commentDate = `${currDate.toLocaleDateString()}-${currDate.toLocaleTimeString()}`;
-    const newComment: ICommentObj = { ...checkValidityRes, commentDate };
-
-    props.addComment(newComment);
-    props.onOpen();
-    formComment.current?.reset();
-  }
-
-  function checkFormValidity(): TCheckValidityRes {
-    const name: string = checkNameValidity(nameInput.current);
-    const surname: string = checkNameValidity(surnameInput.current);
-    const birthday: string = checkBirthdayValidity(birthdayInput.current);
-    const sex: string = checkSexValidity([radioMaleInput.current, radioFemaleInput.current]);
-    const goodCategories: string[] = checkCategoryValidity(categorySelect.current);
-    const commentText: string = checkCommentValidity(commentInput.current);
-    const photosArr: string[] = checkPhotoValidity(fileInput.current);
-    const isAgree = !!agreeInput.current?.checked;
-
-    setIsNameCorrect(!!name);
-    setIsSurnameCorrect(!!surname);
-    setIsBirthdayCorrect(!!birthday);
-    setIsSexSelected(!!sex);
-    setIsCategorySelected(!!goodCategories.length);
-    setIsCommentCorrect(!!commentText);
-    setIsFilesSelected(!!photosArr.length);
-    setIsAgree(isAgree);
-
-    return {
+    const newComment: ICommentObj = {
+      commentDate,
       name,
       surname,
       birthday,
       sex,
-      goodCategories,
+      goodCategories: category,
       commentText,
-      photosArr,
-      isAgree,
+      photosArr: Array.from(photos).map((fileObj) => URL.createObjectURL(fileObj)),
+      isAgree: agree,
     };
-  }
+
+    props.addComment(newComment);
+    props.onOpen();
+    reset();
+  };
 
   return (
-    <form className="form" onSubmit={handleSubmit} ref={formComment}>
+    <form className="form" onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="form__full-name">
-        <TextInput id="Name" placeholder="Mikle" ref={nameInput} isValueCorrect={isNameCorrect} />
-        <TextInput
-          id="Surname"
-          placeholder="Brown"
-          ref={surnameInput}
-          isValueCorrect={isSurnameCorrect}
-        />
+        <TextInput id="Name" placeholder="Mikle" register={register} errors={errors} />
+        <TextInput id="Surname" placeholder="Brown" register={register} errors={errors} />
       </div>
       <div className="form__person-details">
-        <DateInput id="Birthday" ref={birthdayInput} isValueCorrect={isBirthdayCorrect} />
+        <DateInput id="Birthday" register={register} errors={errors} validate={birthdayValidity} />
         <fieldset className="form__field sex">
           <p className="sex__title">
             <span className="form__alert">*</span>
             Sex:
           </p>
           <div className="sex__content">
-            <RadioInput name="sex" id="male" ref={radioMaleInput} />
-            <RadioInput name="sex" id="female" ref={radioFemaleInput} />
+            <RadioInput nameField="sex" id="male" register={register} />
+            <RadioInput nameField="sex" id="female" register={register} />
           </div>
-          {!isSexSelected && <div className="form__alert">Choose sex</div>}
+          {errors.sex && <div className="form__alert">Choose sex</div>}
         </fieldset>
       </div>
       <SelectElem
         id="category"
         paragraph="Select the category/s of the item(s) you purchased"
         isMultiple={true}
-        isValueCorrect={isCategorySelected}
-        ref={categorySelect}
+        register={register}
+        errors={errors}
       >
         {CATEGORIES_TITLES_ARR.map((category) => (
           <option key={category} value={category} className="category__option">
@@ -138,13 +76,13 @@ export function Form(props: TFormProps): JSX.Element {
           </option>
         ))}
       </SelectElem>
-      <TextareaElem id="comment-text" isValueCorrect={isCommentCorrect} ref={commentInput}>
+      <TextareaElem id="commentText" clasNaming="comment-text" register={register} errors={errors}>
         Your comment (at least 10 symbols):
       </TextareaElem>
-      <FileInput id="photos" isMultiple={true} isValueCorrect={isFilesSelected} ref={fileInput}>
+      <FileInput id="photos" isMultiple={true} register={register} errors={errors}>
         Show photos of our product that you bought
       </FileInput>
-      <CheckboxInput id="agree" isValueCorrect={isAgree} ref={agreeInput}>
+      <CheckboxInput id="agree" register={register} errors={errors}>
         I consent to my personal data
       </CheckboxInput>
       <div className="form__required">
