@@ -5,7 +5,22 @@ import {
   TPropsInput,
   TPropsComment,
 } from 'models/component.model';
-import { TCheckValidityRes, TCommentObj, TStateForm } from './form.model';
+import {
+  TCheckboxInputProps,
+  TCheckValidityRes,
+  ICommentObj,
+  TFileInputProps,
+  TFormPageProps,
+  TFormProps,
+  TRadioInputProps,
+  TSelectProps,
+  TStateForm,
+  TTextareaProps,
+  TTextInputProps,
+  FormValues,
+  TDateInputProps,
+  TValidateObj,
+} from './form.model';
 import { IGood } from './good.model';
 
 export {
@@ -15,7 +30,18 @@ export {
   TPropsHandle,
   TPropsInput,
   TStateForm,
-  TCommentObj,
+  ICommentObj,
   TCheckValidityRes,
   TPropsComment,
+  TFormProps,
+  TFormPageProps,
+  TTextInputProps,
+  TRadioInputProps,
+  TSelectProps,
+  TTextareaProps,
+  TFileInputProps,
+  TCheckboxInputProps,
+  FormValues,
+  TDateInputProps,
+  TValidateObj,
 };

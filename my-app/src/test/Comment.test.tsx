@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Comment } from '../components/form/Comment';
-import { TCommentObj } from 'models';
+import { ICommentObj } from 'models';
 
 describe('Comment', () => {
-  const newComment: TCommentObj = {
+  const newComment: ICommentObj = {
     commentDate: `01.04.2023-12:13:14`,
     name: 'Bob',
     surname: 'Green',
@@ -12,7 +12,7 @@ describe('Comment', () => {
     sex: 'male',
     goodCategories: ['hoodie'],
     commentText: 'Nice material',
-    photos: [''],
+    photosArr: [''],
     isAgree: true,
   };
 

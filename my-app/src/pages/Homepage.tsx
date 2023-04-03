@@ -1,20 +1,19 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Search } from '../components/goods/Search';
 import { GoodsList } from '../components/goods/GoodsList';
 import { TPropsHandle } from '../models';
 import { PAGES } from '../constants/pages';
 
-export class Homepage extends Component<TPropsHandle> {
-  componentDidMount(): void {
-    this.props.handleOpenPage(PAGES.home);
-  }
+export function Homepage(props: TPropsHandle): JSX.Element {
+  useEffect(() => {
+    const showPageName = (page: string) => props.handleOpenPage(page);
+    showPageName(PAGES.home);
+  }, [props]);
 
-  render() {
-    return (
-      <div className="container">
-        <Search />
-        <GoodsList />
-      </div>
-    );
-  }
+  return (
+    <div className="container">
+      <Search />
+      <GoodsList />
+    </div>
+  );
 }

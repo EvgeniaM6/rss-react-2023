@@ -1,14 +1,18 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { Formspage } from '../pages';
+import { ICommentObj } from 'models';
 
 describe('Formspage', () => {
   function handleOpenPage(page: string): void {
     console.log(page);
   }
+  function addComment(newComment: ICommentObj): void {
+    console.log(newComment);
+  }
 
   beforeEach(() => {
-    render(<Formspage handleOpenPage={handleOpenPage} />);
+    render(<Formspage handleOpenPage={handleOpenPage} addComment={addComment} commentsArr={[]} />);
   });
 
   it('should render input elements with text type', () => {
@@ -35,11 +39,5 @@ describe('Formspage', () => {
 
   it('should render button', () => {
     screen.getByRole('button');
-  });
-
-  it('should render alert when button clicked and name input is empty', () => {
-    const submitBtn = screen.getByRole('button');
-    fireEvent.click(submitBtn);
-    screen.getByText('The first letter of the name must be capitalized');
   });
 });

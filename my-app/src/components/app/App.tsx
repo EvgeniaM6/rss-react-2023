@@ -1,42 +1,44 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Aboutpage, Errorpage, Formspage, Homepage } from '../../pages';
-import Layout from './Layout';
-import Footer from './Footer';
-import { TProps } from '../../models';
+import { Layout } from './Layout';
+import { Footer } from './Footer';
+import { ICommentObj } from 'models';
 import { PAGES } from '../../constants/pages';
 
-export default class App extends Component<TProps, TProps> {
-  constructor(props: TProps) {
-    super(props);
+export function App(): JSX.Element {
+  const [currentPage, setCurrentPage] = useState(PAGES.home);
+  const [commentsArr, setCommentsArr] = useState<ICommentObj[]>([]);
 
-    this.state = {
-      currentPage: PAGES.home,
-    };
-
-    this.handleOpenPage = this.handleOpenPage.bind(this);
+  function handleOpenPage(page: string): void {
+    setCurrentPage(page);
   }
 
-  handleOpenPage(page: string): void {
-    this.setState({
-      currentPage: page,
-    });
+  function addComment(newComment: ICommentObj): void {
+    setCommentsArr([...commentsArr, newComment]);
   }
 
-  render() {
-    return (
-      <>
-        <Layout currentPage={this.state.currentPage} />
-        <main className="main">
-          <Routes>
-            <Route path="/" element={<Homepage handleOpenPage={this.handleOpenPage} />} />
-            <Route path="/about" element={<Aboutpage handleOpenPage={this.handleOpenPage} />} />
-            <Route path="/forms" element={<Formspage handleOpenPage={this.handleOpenPage} />} />
-            <Route path="*" element={<Errorpage handleOpenPage={this.handleOpenPage} />} />
-          </Routes>
-        </main>
-        <Footer />
-      </>
-    );
-  }
+  return (
+    <>
+      <Layout currentPage={currentPage} />
+      <main className="main">
+        <Routes>
+          <Route path="/" element={<Homepage handleOpenPage={handleOpenPage} />} />
+          <Route path="/about" element={<Aboutpage handleOpenPage={handleOpenPage} />} />
+          <Route
+            path="/forms"
+            element={
+              <Formspage
+                handleOpenPage={handleOpenPage}
+                addComment={addComment}
+                commentsArr={commentsArr}
+              />
+            }
+          />
+          <Route path="*" element={<Errorpage handleOpenPage={handleOpenPage} />} />
+        </Routes>
+      </main>
+      <Footer />
+    </>
+  );
 }

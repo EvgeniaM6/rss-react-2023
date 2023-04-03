@@ -1,36 +1,36 @@
-import React, { Component } from 'react';
-import { TCommentObj } from '../../models';
+import React from 'react';
+import { ICommentObj } from '../../models';
 
-export class Comment extends Component<{ commentObj: TCommentObj }> {
-  render() {
-    const [date, time] = this.props.commentObj.commentDate.split('-');
+export function Comment(props: { commentObj: ICommentObj }): JSX.Element {
+  const { commentDate, name, surname, sex, birthday, goodCategories, commentText, photosArr } =
+    props.commentObj;
+  const [date, time] = commentDate.split('-');
 
-    return (
-      <div className="comment">
-        <div className="comment__person">
-          <div>{`${date} ${time.slice(0, -3)}`}</div>
-          <div className="comment__name">{`${this.props.commentObj.name} ${this.props.commentObj.surname}`}</div>
-          <div>{this.props.commentObj.sex}</div>
-          <div>Birthday: {this.props.commentObj.birthday?.split('-').reverse().join('.')}</div>
+  return (
+    <div className="comment">
+      <div className="comment__person">
+        <div>{`${date} ${time.slice(0, -3)}`}</div>
+        <div className="comment__name">{`${name} ${surname}`}</div>
+        <div>{sex}</div>
+        <div>Birthday: {birthday?.split('-').reverse().join('.')}</div>
+      </div>
+      <div className="comment__content">
+        <div className="comment__categories">
+          {goodCategories.map((goodCategory) => (
+            <span key={goodCategory} className="comment__category">
+              {goodCategory}
+            </span>
+          ))}
         </div>
-        <div className="comment__content">
-          <div className="comment__categories">
-            {this.props.commentObj.goodCategories.map((goodCategory) => (
-              <span key={goodCategory} className="comment__category">
-                {goodCategory}
-              </span>
+        <div className="comment__text">{commentText}</div>
+        {!!photosArr.length && (
+          <div className="comment__images">
+            {photosArr.map((photo) => (
+              <img key={photo} className="comment__images-photo" src={photo} />
             ))}
           </div>
-          <div className="comment__text">{this.props.commentObj.commentText}</div>
-          {!!this.props.commentObj.photos.length && (
-            <div className="comment__images">
-              {this.props.commentObj.photos.map((photo) => (
-                <img key={photo} className="comment__images-photo" src={photo} />
-              ))}
-            </div>
-          )}
-        </div>
+        )}
       </div>
-    );
-  }
+    </div>
+  );
 }

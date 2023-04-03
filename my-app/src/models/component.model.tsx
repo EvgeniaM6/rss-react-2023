@@ -1,4 +1,4 @@
-import { TCommentObj } from 'models';
+import { ICommentObj } from 'models';
 
 export type TProps = TPropsObj | Readonly<TPropsObj>;
 
@@ -12,7 +12,7 @@ export type TPropsHandle = {
 
 export type TPropsComment = {
   onClose: () => void;
-  form: TCommentObj;
+  form: ICommentObj;
 };
 
 export type TPropsInput = {

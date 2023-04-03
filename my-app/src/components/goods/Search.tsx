@@ -1,45 +1,37 @@
-import React, { ChangeEvent, Component, FormEvent } from 'react';
-import { TProps } from '../../models';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
-export class Search extends Component<TProps, { searchVal: string }> {
-  constructor(props: TProps) {
-    super(props);
+export function Search(): JSX.Element {
+  const savedSearchVal: string = localStorage.getItem('searchValue') || '';
+  const [searchVal, setSearchVal] = useState(savedSearchVal);
 
-    const savedSearchVal = localStorage.getItem('searchValue') || '';
-    this.state = { searchVal: savedSearchVal };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  function handleChange(e: ChangeEvent): void {
+    setSearchVal((e.target as HTMLInputElement).value);
   }
 
-  handleChange(e: ChangeEvent) {
-    this.setState({ searchVal: (e.target as HTMLInputElement).value });
-  }
-
-  handleSubmit(e: FormEvent) {
+  function handleSubmit(e: FormEvent): void {
     e.preventDefault();
   }
 
-  componentWillUnmount() {
-    localStorage.setItem('searchValue', this.state.searchVal);
-  }
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('searchValue', searchVal);
+    };
+  });
 
-  render() {
-    return (
-      <div className="search">
-        <form className="search__form" onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="search..."
-            className="search__input"
-            value={this.state.searchVal}
-            onChange={this.handleChange}
-          />
-          <button type="submit" className="search__submit">
-            search!
-          </button>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className="search">
+      <form className="search__form" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="search..."
+          className="search__input"
+          value={searchVal}
+          onChange={handleChange}
+        />
+        <button type="submit" className="search__submit">
+          search!
+        </button>
+      </form>
+    </div>
+  );
 }
