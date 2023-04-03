@@ -25,7 +25,7 @@ export const TextInput = (props: TTextInputProps) => {
           },
         })}
       />
-      {error && <div className="form__alert">{`${error?.message}` || 'Error!'}</div>}
+      {error && <div className="form__alert">{`${error?.message}` || 'Error'}</div>}
     </fieldset>
   );
 };
