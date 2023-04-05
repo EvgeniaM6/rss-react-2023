@@ -1,0 +1,29 @@
+.page {
+  display: flex;
+  font-family: Poppins, sans-serif;
+  font-size: 14px;
+
+  &-btn {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-family: Poppins, sans-serif;
+    font-size: 14px;
+    opacity: .5;
+    background-color: $color-main;
+    border: none;
+    cursor: auto;
+
+    &:hover {
+      background-color: $color-main;
+    }
+    
+    &-active {
+      opacity: 1;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $color-main-hover;
+      }
+    }
+  }
+}
