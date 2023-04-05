@@ -3,21 +3,22 @@ import { TSearchProps } from 'models';
 
 export function Search(props: TSearchProps): JSX.Element {
   const { changeSearch, searchValue, setPageNum } = props;
-  const [searchVal, setSearchVal] = useState(searchValue);
+  const [inputValue, setInputValue] = useState(searchValue);
 
   function handleChange(e: ChangeEvent): void {
-    setSearchVal((e.target as HTMLInputElement).value);
+    setInputValue((e.target as HTMLInputElement).value);
   }
 
   function handleSubmit(e: FormEvent): void {
     e.preventDefault();
+    if (inputValue === searchValue) return;
     setPageNum(1);
-    changeSearch(searchVal);
+    changeSearch(inputValue);
   }
 
   useEffect(() => {
     return () => {
-      localStorage.setItem('searchValue', searchVal);
+      localStorage.setItem('searchValue', inputValue);
     };
   });
 
@@ -28,7 +29,7 @@ export function Search(props: TSearchProps): JSX.Element {
           type="text"
           placeholder="search..."
           className="search__input"
-          value={searchVal}
+          value={inputValue}
           onChange={handleChange}
         />
         <button type="submit" className="search__submit">

@@ -29,8 +29,6 @@ export type TPaginationProps = {
   pageNum: number;
   setPageNum: Dispatch<SetStateAction<number>>;
   pageAmount: number;
-  haveNextPage: boolean;
-  havePrevPage: boolean;
 };
 
 export type TSearchProps = {

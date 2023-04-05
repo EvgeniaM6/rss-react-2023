@@ -1,3 +1,13 @@
+.user-managing {
+  display: flex;
+  justify-content: space-around;
+
+  @include media-mobile {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+}
+
 .goods {
   display: flex;
   justify-content: center;
