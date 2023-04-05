@@ -21,7 +21,14 @@ import {
   TDateInputProps,
   TValidateObj,
 } from './form.model';
-import { IGood } from './good.model';
+import {
+  IGood,
+  IProduct,
+  IProductsRes,
+  TGoodsListProps,
+  TPaginationProps,
+  TSearchProps,
+} from './good.model';
 
 export {
   TProps,
@@ -44,4 +51,9 @@ export {
   FormValues,
   TDateInputProps,
   TValidateObj,
+  TPaginationProps,
+  TSearchProps,
+  TGoodsListProps,
+  IProductsRes,
+  IProduct,
 };

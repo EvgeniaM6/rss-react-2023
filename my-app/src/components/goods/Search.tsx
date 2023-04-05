@@ -1,8 +1,9 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { TSearchProps } from 'models';
 
-export function Search(): JSX.Element {
-  const savedSearchVal: string = localStorage.getItem('searchValue') || '';
-  const [searchVal, setSearchVal] = useState(savedSearchVal);
+export function Search(props: TSearchProps): JSX.Element {
+  const { changeSearch, searchValue, setPageNum } = props;
+  const [searchVal, setSearchVal] = useState(searchValue);
 
   function handleChange(e: ChangeEvent): void {
     setSearchVal((e.target as HTMLInputElement).value);
@@ -10,6 +11,8 @@ export function Search(): JSX.Element {
 
   function handleSubmit(e: FormEvent): void {
     e.preventDefault();
+    setPageNum(1);
+    changeSearch(searchVal);
   }
 
   useEffect(() => {
