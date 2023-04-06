@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { IProduct } from '../../models';
+import { Modal } from './Modal';
 import { ProductModal } from './ProductModal';
 
 export function ProductCard(props: { product: Readonly<IProduct> }): JSX.Element {
@@ -7,6 +8,7 @@ export function ProductCard(props: { product: Readonly<IProduct> }): JSX.Element
   const {
     urls: { regular },
   } = product;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -14,7 +16,9 @@ export function ProductCard(props: { product: Readonly<IProduct> }): JSX.Element
       <div className="card__container" onClick={() => setIsModalOpen(true)}>
         <img src={regular} className="card__image" />
       </div>
-      {isModalOpen && <ProductModal product={product} onClose={() => setIsModalOpen(false)} />}
+      <Modal isActive={isModalOpen} setIsActive={setIsModalOpen}>
+        <ProductModal isActive={isModalOpen} product={product.id} />
+      </Modal>
     </div>
   );
 }
