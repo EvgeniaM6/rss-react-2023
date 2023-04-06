@@ -1,15 +1,29 @@
-.user-managing {
+.home {
+  min-height: calc(100vh - 95px - 40px - 20px);
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: space-between;
 
-  @include media-mobile {
-    flex-direction: column-reverse;
-    align-items: center;
+  &__pagination {
+    display: flex;
+    justify-content: center;
   }
-}
 
-.goods {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  .user-managing {
+    display: flex;
+    justify-content: space-around;
+  
+    @include media-mobile {
+      flex-direction: column-reverse;
+      align-items: center;
+    }
+  }
+  
+  .goods {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-family: Poppins, sans-serif;
+    font-size: 18px;
+  }
 }
