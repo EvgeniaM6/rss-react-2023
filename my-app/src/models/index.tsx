@@ -26,8 +26,10 @@ import {
   IProduct,
   IProductsRes,
   TGoodsListProps,
+  TModalProps,
   TPaginationProps,
   TSearchProps,
+  TSortingProps,
 } from './good.model';
 
 export {
@@ -56,4 +58,6 @@ export {
   TGoodsListProps,
   IProductsRes,
   IProduct,
+  TSortingProps,
+  TModalProps,
 };

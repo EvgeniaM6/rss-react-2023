@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { ComponentPropsWithoutRef, Dispatch, SetStateAction } from 'react';
 
 export interface IGood {
   id: number;
@@ -31,6 +31,11 @@ export type TPaginationProps = {
   pageAmount: number;
 };
 
+export type TSortingProps = {
+  sortBy: string;
+  setSortBy: Dispatch<SetStateAction<string>>;
+};
+
 export type TSearchProps = {
   changeSearch: Dispatch<SetStateAction<string>>;
   searchValue: string;
@@ -41,6 +46,7 @@ export type TGoodsListProps = {
   searchValue: string;
   pageNum: number;
   setPageAmount: Dispatch<SetStateAction<number>>;
+  sortBy: string;
 };
 
 export interface IProductsRes {
@@ -56,6 +62,7 @@ export interface IProduct {
   urls: TUrls;
   description: string;
   alt_description: string;
+  location: string;
 }
 
 type TUrls = {
@@ -65,4 +72,9 @@ type TUrls = {
   small: string;
   thumb: string;
   small_s3: string;
+};
+
+export type TModalProps = ComponentPropsWithoutRef<'div'> & {
+  isActive: boolean;
+  setIsActive: Dispatch<SetStateAction<boolean>>;
 };
