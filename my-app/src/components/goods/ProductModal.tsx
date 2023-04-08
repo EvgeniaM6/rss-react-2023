@@ -21,12 +21,10 @@ export function ProductModal(props: { product: string; isActive: boolean }): JSX
         return response.json();
       })
       .then((dataObj) => {
-        console.log('dataObj=', dataObj);
         setProductObj(dataObj);
         setRespError('');
       })
       .catch((e) => {
-        console.log('e=', e);
         setProductObj(null);
         setRespError(e.message);
       })

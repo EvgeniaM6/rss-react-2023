@@ -26,7 +26,6 @@ export function GoodsList(props: TGoodsListProps): JSX.Element {
         setRespError('');
       })
       .catch((err) => {
-        console.log('err=', err);
         setRespError(err.message);
         setData(null);
         setPageAmount(0);
@@ -35,12 +34,12 @@ export function GoodsList(props: TGoodsListProps): JSX.Element {
   }, [searchValue, pageNum, setPageAmount, sortBy]);
 
   return (
-    <div className="goods">
+    <div className="goods" data-testid="goods">
       {respError && <h2>{`Error: ${respError}`}</h2>}
       {isLoading && <div>{<LoadingAnimation />}</div>}
       {!isLoading &&
         !respError &&
-        (data && !!data.results.length ? (
+        (data && !!data.results?.length ? (
           data.results.map((productObj) => <ProductCard key={productObj.id} product={productObj} />)
         ) : (
           <h2>No data</h2>

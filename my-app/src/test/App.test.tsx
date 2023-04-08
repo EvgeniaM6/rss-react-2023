@@ -1,26 +1,35 @@
 import { App } from '../components/app/App';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({ rates: { CAD: 1.42 } }),
+  })
+) as jest.Mock;
 
 describe('App component', () => {
   it('should be created', () => {
     expect(App).toBeDefined();
   });
 
-  beforeEach(() => {
-    render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+  beforeEach(async () => {
+    await act(
+      async () =>
+        await render(
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        )
     );
   });
 
-  it('should consist header', () => {
-    screen.getByTestId('header');
+  it('should consist header', async () => {
+    await waitFor(() => screen.getByTestId('header'));
   });
 
-  it('should consist footer', () => {
-    screen.getByTestId('footer');
+  it('should consist footer', async () => {
+    await waitFor(() => screen.getByTestId('footer'));
   });
 });
