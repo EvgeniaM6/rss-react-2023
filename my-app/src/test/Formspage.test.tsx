@@ -4,12 +4,13 @@ import { Formspage } from '../pages';
 import { ICommentObj } from 'models';
 
 describe('Formspage', () => {
-  function handleOpenPage(page: string): void {
-    console.log(page);
-  }
-  function addComment(newComment: ICommentObj): void {
-    console.log(newComment);
-  }
+  const handleOpenPage = jest.fn((page: string) => {
+    page.length;
+  });
+
+  const addComment = jest.fn((newComment: ICommentObj) => {
+    newComment.name;
+  });
 
   beforeEach(() => {
     render(<Formspage handleOpenPage={handleOpenPage} addComment={addComment} commentsArr={[]} />);
