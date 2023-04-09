@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ProductCard } from './ProductCard';
 import { IProductsRes, TGoodsListProps } from 'models';
 import { LoadingAnimation } from '../../utils/LoadingAnimation';
+import { getPhotoByParameters } from '../../data/dataRequest';
 
 export function GoodsList(props: TGoodsListProps): JSX.Element {
   const { searchValue, pageNum, setPageAmount, sortBy } = props;
@@ -14,12 +15,7 @@ export function GoodsList(props: TGoodsListProps): JSX.Element {
     setRespError('');
     setIsLoading(true);
 
-    const url = `https://api.unsplash.com/search/photos?orientation=portrait&page=${pageNum}&per_page=12&query=${searchValue}&order_by=${sortBy}&client_id=v5XgTy0t56zK48fAbSktE_YlmfNMaDoLcScy57Tyc28`;
-
-    fetch(url)
-      .then((response) => {
-        return response.json();
-      })
+    getPhotoByParameters(searchValue, pageNum, sortBy)
       .then((dataObj) => {
         setData(dataObj);
         setPageAmount(dataObj.total_pages);

@@ -17,7 +17,7 @@ export function ProductCard(props: { product: Readonly<IProduct> }): JSX.Element
         <img src={regular} className="card__image" />
       </div>
       <Modal isActive={isModalOpen} setIsActive={setIsModalOpen}>
-        <ProductModal isActive={isModalOpen} product={product.id} />
+        <ProductModal isActive={isModalOpen} productId={product.id} />
       </Modal>
     </div>
   );
