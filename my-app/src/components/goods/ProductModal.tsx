@@ -37,9 +37,24 @@ export function ProductModal(props: { product: string; isActive: boolean }): JSX
       {isLoading && <div>{<LoadingAnimation />}</div>}
       {productObj && (
         <div>
-          <h2>{`Description-1: ${productObj.description}`}</h2>
-          <h3>{`Description-2: ${productObj.alt_description}`}</h3>
-          <img width={200} src={productObj.urls.full} alt="" />
+          <h2>{productObj.description || '-'}</h2>
+          <h3>{productObj.alt_description || '-'}</h3>
+          <img width={200} src={productObj.urls.full} alt={productObj.description} />
+          <p>{`Likes: ${productObj.likes || 0}`}</p>
+          <p>{`Downloads: ${productObj.downloads || 0}`}</p>
+          <p>{`Created at: ${productObj.created_at || '-'}`}</p>
+          <p>{`City: ${productObj.location.city || '-'}`}</p>
+          <p>{`Country: ${productObj.location.country || '-'}`}</p>
+          <div>
+            <img src={productObj.user.profile_image.large} alt={productObj.user.name} />
+            <div>
+              <p>{`User: ${productObj.user.username || '-'}`}</p>
+              <p>{`Name: ${productObj.user.name || '-'}`}</p>
+              <p>{`instagram: ${productObj.user.instagram_username || '-'}`}</p>
+              <p>{`twitter: ${productObj.user.twitter_username || '-'}`}</p>
+              <p>{`portfolio: ${productObj.user.portfolio_url || '-'}`}</p>
+            </div>
+          </div>
         </div>
       )}
     </div>

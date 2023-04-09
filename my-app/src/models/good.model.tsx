@@ -62,7 +62,10 @@ export interface IProduct {
   urls: TUrls;
   description: string;
   alt_description: string;
-  location: string;
+  likes: number;
+  downloads: number;
+  user: TUserData;
+  location: TLocation;
 }
 
 type TUrls = {
@@ -72,6 +75,26 @@ type TUrls = {
   small: string;
   thumb: string;
   small_s3: string;
+};
+
+type TUserData = {
+  username: string;
+  name: string;
+  instagram_username: string;
+  twitter_username: string;
+  portfolio_url: string;
+  profile_image: TProfileImg;
+};
+
+type TProfileImg = {
+  small: string;
+  medium: string;
+  large: string;
+};
+
+type TLocation = {
+  city: string;
+  country: string;
 };
 
 export type TModalProps = ComponentPropsWithoutRef<'div'> & {
