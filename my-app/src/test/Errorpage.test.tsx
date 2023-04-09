@@ -7,9 +7,9 @@ describe('Errorpage component', () => {
     expect(Errorpage).toBeDefined();
   });
 
-  function handleOpenPage(page: string): void {
-    console.log(page);
-  }
+  const handleOpenPage = jest.fn((page: string) => {
+    page.length;
+  });
 
   beforeEach(() => {
     render(<Errorpage handleOpenPage={handleOpenPage} />);

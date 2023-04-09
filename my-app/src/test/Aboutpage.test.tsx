@@ -7,9 +7,9 @@ describe('Aboutpage component', () => {
     expect(Aboutpage).toBeDefined();
   });
 
-  function handleOpenPage(page: string): void {
-    console.log(page);
-  }
+  const handleOpenPage = jest.fn((page: string) => {
+    page.length;
+  });
 
   beforeEach(() => {
     render(<Aboutpage handleOpenPage={handleOpenPage} />);
