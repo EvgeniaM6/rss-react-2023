@@ -27,7 +27,7 @@ export function Pagination(props: TPaginationProps): JSX.Element {
       <div className="page__number">
         <div>{!!pageAmount ? pageNum : 0}</div>
         <div> / </div>
-        <div>{pageAmount || 0}</div>
+        <div>{pageAmount ? (pageAmount === Infinity ? '...' : pageAmount) : 0}</div>
       </div>
       <div className="page__prev">
         <button className="page__next-btn page-btn" disabled={!haveNextPage} onClick={nextPage}>

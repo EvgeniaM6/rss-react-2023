@@ -26,6 +26,7 @@ import {
   IProduct,
   IProductsRes,
   TGoodsListProps,
+  TGoodsSearchProps,
   TModalProps,
   TPaginationProps,
   TSearchProps,
@@ -60,4 +61,5 @@ export {
   IProduct,
   TSortingProps,
   TModalProps,
+  TGoodsSearchProps,
 };

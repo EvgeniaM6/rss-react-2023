@@ -49,6 +49,12 @@ export type TGoodsListProps = {
   sortBy: string;
 };
 
+export type TGoodsSearchProps = {
+  searchValue: string;
+  pageNum: number;
+  sortBy: string;
+};
+
 export interface IProductsRes {
   total: number;
   total_pages: number;

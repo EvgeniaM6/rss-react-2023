@@ -38,7 +38,7 @@ export function ProductModal(props: { productId: string; isActive: boolean }): J
           <h3>{productObj.alt_description || '-'}</h3>
           <p>{`Likes: ${productObj.likes || 0}`}</p>
           <p>{`Downloads: ${productObj.downloads || 0}`}</p>
-          <p>{`Created at: ${productObj.created_at || '-'}`}</p>
+          <p>{`Created at: ${new Date(productObj.created_at).toLocaleString() || '-'}`}</p>
           <p>{`City: ${productObj.location.city || '-'}`}</p>
           <p>{`Country: ${productObj.location.country || '-'}`}</p>
           <div>
