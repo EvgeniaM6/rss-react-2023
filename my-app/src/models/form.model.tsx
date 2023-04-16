@@ -102,3 +102,7 @@ export type TFormPageProps = {
   addComment: (newComment: ICommentObj) => void;
   commentsArr: ICommentObj[];
 };
+
+export type TFormCommentsState = {
+  commentsArr: ICommentObj[];
+};

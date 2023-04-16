@@ -104,3 +104,8 @@ export type TModalProps = ComponentPropsWithoutRef<'div'> & {
   isActive: boolean;
   setIsActive: Dispatch<SetStateAction<boolean>>;
 };
+
+export type TSearchState = {
+  changedSearch: '';
+  submittedSearch: '';
+};

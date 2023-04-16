@@ -1,17 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { TSearchState } from '../models';
+
+const initialState: TSearchState = {
+  changedSearch: '',
+  submittedSearch: '',
+};
 
 const searchSlice = createSlice({
   name: 'search',
-  initialState: {
-    changedSearch: '',
-    submittedSearch: '',
-  },
+  initialState,
   reducers: {
     setSearchValue(state, action) {
-      return { ...state, submitSearch: action.payload };
+      return { ...state, submittedSearch: action.payload };
     },
     changeSearchValue(state, action) {
-      return { ...state, changeSearch: action.payload };
+      return { ...state, changedSearch: action.payload };
     },
   },
 });
