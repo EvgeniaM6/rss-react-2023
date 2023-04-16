@@ -15,7 +15,10 @@ export const goodsApi = createApi({
           : `/photos?page=${pageNum}&per_page=12&client_id=${UNSPLASH_API}`;
       },
     }),
+    getProductById: build.query<IProduct, string>({
+      query: (id: string) => `/photos/${id}?client_id=${UNSPLASH_API}`,
+    }),
   }),
 });
 
-export const { useGetGoodsQuery } = goodsApi;
+export const { useGetGoodsQuery, useGetProductByIdQuery } = goodsApi;
