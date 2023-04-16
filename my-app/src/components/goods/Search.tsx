@@ -1,26 +1,24 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useRef } from 'react';
 import { TSearchProps } from 'models';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setSearchValue, changeSearchValue } from '../../store/searchSlice';
 
 export function Search(props: TSearchProps): JSX.Element {
-  const { changeSearch, searchValue, setPageNum } = props;
-  const [inputValue, setInputValue] = useState(searchValue);
+  const { setPageNum } = props;
+  const { submittedSearch, changedSearch } = useAppSelector((state) => state.search);
+  const dispatch = useAppDispatch();
+  const searchInputelem = useRef<HTMLInputElement | null>(null);
 
   function handleChange(e: ChangeEvent): void {
-    setInputValue((e.target as HTMLInputElement).value);
+    dispatch(changeSearchValue((e.target as HTMLInputElement).value));
   }
 
   function handleSubmit(e: FormEvent): void {
     e.preventDefault();
-    if (inputValue === searchValue) return;
+    if (changedSearch === submittedSearch) return;
     setPageNum(1);
-    changeSearch(inputValue);
+    dispatch(setSearchValue(changedSearch));
   }
-
-  useEffect(() => {
-    return () => {
-      localStorage.setItem('searchValue', inputValue);
-    };
-  });
 
   return (
     <div className="search">
@@ -28,9 +26,11 @@ export function Search(props: TSearchProps): JSX.Element {
         <input
           type="text"
           placeholder="search..."
+          id="search"
+          ref={searchInputelem}
           className="search__input"
-          value={inputValue}
           onChange={handleChange}
+          defaultValue={changedSearch}
         />
         <button type="submit" className="search__submit">
           search!

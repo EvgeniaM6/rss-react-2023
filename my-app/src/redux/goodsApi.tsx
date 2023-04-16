@@ -8,9 +8,9 @@ export const goodsApi = createApi({
   endpoints: (build) => ({
     getGoods: build.query<IProductsRes | IProduct[], TGoodsSearchProps>({
       query: (searchParams: TGoodsSearchProps) => {
-        const { searchValue, pageNum, sortBy } = searchParams;
-        return searchValue
-          ? `/search/photos?orientation=portrait&page=${pageNum}&per_page=12&query=${searchValue}&order_by=${sortBy}&client_id=${UNSPLASH_API}`
+        const { submittedSearch, pageNum, sortBy } = searchParams;
+        return submittedSearch
+          ? `/search/photos?orientation=portrait&page=${pageNum}&per_page=12&query=${submittedSearch}&order_by=${sortBy}&client_id=${UNSPLASH_API}`
           : `/photos?page=${pageNum}&per_page=12&client_id=${UNSPLASH_API}`;
       },
     }),

@@ -3,9 +3,11 @@ import { ProductCard } from './ProductCard';
 import { IProduct, TGoodsListProps } from 'models';
 import { LoadingAnimation } from '../../utils/LoadingAnimation';
 import { useGetGoodsQuery } from '../../redux/goodsApi';
+import { useAppSelector } from '../../hooks';
 
 export function GoodsList(props: TGoodsListProps): JSX.Element {
-  const { searchValue, pageNum, setPageAmount, sortBy } = props;
+  const { pageNum, setPageAmount, sortBy } = props;
+  const { submittedSearch } = useAppSelector((state) => state.search);
 
   const {
     data = {
@@ -16,7 +18,7 @@ export function GoodsList(props: TGoodsListProps): JSX.Element {
     isLoading,
     error,
     isError,
-  } = useGetGoodsQuery({ searchValue, pageNum, sortBy });
+  } = useGetGoodsQuery({ submittedSearch, pageNum, sortBy });
 
   useEffect(() => {
     if (isError) {
