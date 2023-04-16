@@ -1,19 +1,34 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Formspage } from '../pages';
-import { ICommentObj } from 'models';
+import * as Redux from 'react-redux';
+
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useSelector: jest.fn(),
+  useDispatch: jest.fn(),
+}));
 
 describe('Formspage', () => {
   const handleOpenPage = jest.fn((page: string) => {
     page.length;
   });
 
-  const addComment = jest.fn((newComment: ICommentObj) => {
-    newComment.name;
-  });
+  const mockedState = {
+    commentsArr: [],
+  };
+
+  const mockedDispatch = jest.spyOn(Redux, 'useDispatch');
 
   beforeEach(() => {
-    render(<Formspage handleOpenPage={handleOpenPage} addComment={addComment} commentsArr={[]} />);
+    const dispatch = jest.fn();
+    mockedDispatch.mockReturnValue(dispatch);
+    (Redux.useSelector as jest.Mock).mockImplementation((callback) => {
+      return callback(mockedState);
+    });
+
+    jest.spyOn(Redux, 'useSelector').mockReturnValue({ commentsArr: [] });
+    render(<Formspage handleOpenPage={handleOpenPage} />);
   });
 
   it('should render input elements with text type', () => {

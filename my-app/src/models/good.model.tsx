@@ -37,15 +37,18 @@ export type TSortingProps = {
 };
 
 export type TSearchProps = {
-  changeSearch: Dispatch<SetStateAction<string>>;
-  searchValue: string;
   setPageNum: Dispatch<SetStateAction<number>>;
 };
 
 export type TGoodsListProps = {
-  searchValue: string;
   pageNum: number;
   setPageAmount: Dispatch<SetStateAction<number>>;
+  sortBy: string;
+};
+
+export type TGoodsSearchProps = {
+  submittedSearch: string;
+  pageNum: number;
   sortBy: string;
 };
 
@@ -100,4 +103,9 @@ type TLocation = {
 export type TModalProps = ComponentPropsWithoutRef<'div'> & {
   isActive: boolean;
   setIsActive: Dispatch<SetStateAction<boolean>>;
+};
+
+export type TSearchState = {
+  changedSearch: '';
+  submittedSearch: '';
 };

@@ -1,44 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { LoadingAnimation } from '../../utils/LoadingAnimation';
-import { IProduct } from '../../models';
-import { getPhotoById } from '../../data/dataRequest';
+import { useGetProductByIdQuery } from '../../redux/goodsApi';
 
-export function ProductModal(props: { productId: string; isActive: boolean }): JSX.Element {
-  const { productId, isActive } = props;
-
-  const [productObj, setProductObj] = useState<IProduct | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [respError, setRespError] = useState('');
-
-  useEffect(() => {
-    if (!isActive) return;
-    setProductObj(null);
-    setRespError('');
-    setIsLoading(true);
-
-    getPhotoById(productId)
-      .then((productResp) => {
-        setProductObj(productResp);
-        setRespError('');
-      })
-      .catch((e) => {
-        setProductObj(null);
-        setRespError(e.message);
-      })
-      .finally(() => setIsLoading(false));
-  }, [isActive, productId]);
+export function ProductModal(props: { productId: string }): JSX.Element {
+  const { productId } = props;
+  const { data: productObj = null, isLoading, error, isError } = useGetProductByIdQuery(productId);
 
   return (
     <div>
-      {respError && <h3>{`Error: ${respError}`}</h3>}
+      {isError && (
+        <h3>{`Error: ${'status' in error && error.status} ${
+          'data' in error && JSON.stringify(error.data)
+        }`}</h3>
+      )}
       {isLoading && <div>{<LoadingAnimation />}</div>}
-      {productObj && (
+      {productObj && !isError && !isLoading && (
         <div>
           <h2>{productObj.description || '-'}</h2>
           <h3>{productObj.alt_description || '-'}</h3>
           <p>{`Likes: ${productObj.likes || 0}`}</p>
           <p>{`Downloads: ${productObj.downloads || 0}`}</p>
-          <p>{`Created at: ${productObj.created_at || '-'}`}</p>
+          <p>{`Created at: ${new Date(productObj.created_at).toLocaleString() || '-'}`}</p>
           <p>{`City: ${productObj.location.city || '-'}`}</p>
           <p>{`Country: ${productObj.location.country || '-'}`}</p>
           <div>

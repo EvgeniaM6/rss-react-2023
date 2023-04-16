@@ -2,6 +2,9 @@ import { App } from '../components/app/App';
 import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from '../store';
+// import { renderWithProviders } from '../utils';
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -15,13 +18,14 @@ describe('App component', () => {
   });
 
   beforeEach(async () => {
-    await act(
-      async () =>
-        await render(
+    await act(() =>
+      render(
+        <Provider store={store}>
           <BrowserRouter>
             <App />
           </BrowserRouter>
-        )
+        </Provider>
+      )
     );
   });
 

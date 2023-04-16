@@ -20,15 +20,18 @@ import {
   FormValues,
   TDateInputProps,
   TValidateObj,
+  TFormCommentsState,
 } from './form.model';
 import {
   IGood,
   IProduct,
   IProductsRes,
   TGoodsListProps,
+  TGoodsSearchProps,
   TModalProps,
   TPaginationProps,
   TSearchProps,
+  TSearchState,
   TSortingProps,
 } from './good.model';
 
@@ -60,4 +63,7 @@ export {
   IProduct,
   TSortingProps,
   TModalProps,
+  TGoodsSearchProps,
+  TFormCommentsState,
+  TSearchState,
 };

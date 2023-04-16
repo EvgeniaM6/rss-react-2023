@@ -94,11 +94,12 @@ export type TCheckboxInputProps = ComponentPropsWithoutRef<'label'> & {
 
 export type TFormProps = {
   onOpen: () => void;
-  addComment: (newComment: ICommentObj) => void;
 };
 
 export type TFormPageProps = {
   handleOpenPage: (page: string) => void;
-  addComment: (newComment: ICommentObj) => void;
+};
+
+export type TFormCommentsState = {
   commentsArr: ICommentObj[];
 };

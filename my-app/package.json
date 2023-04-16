@@ -11,13 +11,20 @@
     "test": "jest --collect-coverage"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.3",
+    "@types/isomorphic-fetch": "^0.0.36",
+    "cross-fetch": "^3.1.5",
+    "isomorphic-fetch": "^3.0.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
-    "sort-by": "^1.2.0"
+    "redux": "^4.2.1",
+    "sort-by": "^1.2.0",
+    "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
