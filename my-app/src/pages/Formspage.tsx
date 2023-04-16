@@ -4,9 +4,11 @@ import { Form } from '../components/form/Form';
 import { Comment } from '../components/form/Comment';
 import { Confirm } from '../components/form/Confirm';
 import { PAGES } from '../constants/pages';
+import { useAppSelector } from '../hooks';
 
 export function Formspage(props: TFormPageProps): JSX.Element {
   const [shouldShowConfirm, setShouldShowConfirm] = useState(false);
+  const { commentsArr } = useAppSelector((state) => state.form);
 
   function onClose(): void {
     setShouldShowConfirm(false);
@@ -21,14 +23,12 @@ export function Formspage(props: TFormPageProps): JSX.Element {
     showPageName(PAGES.forms);
   }, [props]);
 
-  const { addComment, commentsArr } = props;
-
   return (
     <div className="container forms-page">
       <h3 className="forms-page__title">
         Leave us a comment about your latest purchase from our store
       </h3>
-      <Form onOpen={onOpen} addComment={addComment} />
+      <Form onOpen={onOpen} />
       {!!commentsArr.length && (
         <div className="forms-page__comments">
           <h3 className="forms-page__title">Comments</h3>

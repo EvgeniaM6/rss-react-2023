@@ -12,6 +12,8 @@ import {
 } from './inputs';
 import { birthdayValidity } from './validity';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAppDispatch } from '../../hooks';
+import { addComment } from '../../store/formSlice';
 
 export function Form(props: TFormProps): JSX.Element {
   const {
@@ -20,6 +22,8 @@ export function Form(props: TFormProps): JSX.Element {
     handleSubmit,
     reset,
   } = useForm<FormValues>({ mode: 'onSubmit', reValidateMode: 'onSubmit' });
+
+  const dispatch = useAppDispatch();
 
   const handleSubmitForm: SubmitHandler<FormValues> = (data) => {
     const { name, surname, birthday, sex, category, commentText, photos, agree } = data;
@@ -38,7 +42,7 @@ export function Form(props: TFormProps): JSX.Element {
       isAgree: agree,
     };
 
-    props.addComment(newComment);
+    dispatch(addComment(newComment));
     props.onOpen();
     reset();
   };
