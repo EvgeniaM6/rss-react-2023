@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { UNSPLASH_API } from '../constants';
 import { IProduct, IProductsRes, TGoodsSearchProps } from '../models';
+import fetch from 'isomorphic-fetch';
 
 export const goodsApi = createApi({
   reducerPath: 'goodsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.unsplash.com/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.unsplash.com/', fetchFn: fetch }),
   endpoints: (build) => ({
     getGoods: build.query<IProductsRes | IProduct[], TGoodsSearchProps>({
       query: (searchParams: TGoodsSearchProps) => {

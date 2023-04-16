@@ -1,6 +1,15 @@
 import React from 'react';
 import { render, screen, act, waitFor } from '@testing-library/react';
 import { GoodsList } from '../components/goods/GoodsList';
+import * as Redux from 'react-redux';
+import { IProduct, IProductsRes } from '../models';
+import { Provider } from 'react-redux';
+import store from '../store';
+
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useSelector: jest.fn(),
+}));
 
 const productResp = {
   total: 1,
@@ -32,22 +41,23 @@ global.fetch = jest.fn(() =>
 ) as jest.Mock;
 
 describe('GoodsList', () => {
+  const mockedState: IProductsRes | IProduct[] = [];
+
   beforeEach(async () => {
-    const searchValue = '';
+    (Redux.useSelector as jest.Mock).mockImplementation((callback) => {
+      return callback(mockedState);
+    });
+    jest.spyOn(Redux, 'useSelector').mockReturnValue([]);
     const pageNum = 1;
     const setPageAmount = jest.fn();
     const sortBy = 'relevant';
 
-    await act(
-      async () =>
-        await render(
-          <GoodsList
-            searchValue={searchValue}
-            pageNum={pageNum}
-            setPageAmount={setPageAmount}
-            sortBy={sortBy}
-          />
-        )
+    await act(() =>
+      render(
+        <Provider store={store}>
+          <GoodsList pageNum={pageNum} setPageAmount={setPageAmount} sortBy={sortBy} />
+        </Provider>
+      )
     );
   });
 
