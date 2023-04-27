@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "ES2020",
     "lib": ["dom", "esnext", "dom.iterable"],
-    "jsx": "react",
-    "module": "esnext",
+    "jsx": "preserve",
+    "module": "ESNext",
     "moduleResolution": "node",
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
@@ -13,7 +13,19 @@
     "strict": true,
     "skipLibCheck": true,
     "baseUrl": "./src",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "outDir": "dist",
+    "allowJs": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "types": ["vite/client", "node"],
+    "paths": {
+      "~utils": ["./test-utils.ts"]
+    }
   },
-  "include": ["./src/**/*", "styled.d.ts"]
+  "include": ["./src/**/*", "styled.d.ts"],
+  "exclude": ["**/dist/**"],
+  "ts-node": {
+    "esm": true,
+  },
 }
