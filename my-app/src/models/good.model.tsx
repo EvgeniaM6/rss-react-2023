@@ -109,3 +109,7 @@ export type TSearchState = {
   changedSearch: '';
   submittedSearch: '';
 };
+
+export type TSearchForm = {
+  search: string;
+};
