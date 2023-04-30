@@ -18,12 +18,12 @@
     "allowJs": true,
     "noEmit": true,
     "noUnusedLocals": true,
-    "types": ["vite/client", "node", "jest"],
+    "types": ["vite/client", "node", "jest", "mocha", "cypress"],
     "paths": {
       "~utils": ["./test-utils.ts"]
     }
   },
-  "include": ["./src/**/*", "styled.d.ts"],
+  "include": ["./src/**/*", "styled.d.ts", "./cypress/**/*"],
   "exclude": ["**/dist/**"],
   "ts-node": {
     "esm": true,
