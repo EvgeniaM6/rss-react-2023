@@ -1,6 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Aboutpage } from '../pages/Aboutpage';
+import { renderToString } from 'react-dom/server';
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useLayoutEffect: jest.requireActual('react').useEffect,
+}));
 
 describe('Aboutpage component', () => {
   it('should be created', () => {
@@ -12,7 +18,11 @@ describe('Aboutpage component', () => {
   });
 
   beforeEach(() => {
-    render(<Aboutpage handleOpenPage={handleOpenPage} />);
+    const ui = <Aboutpage handleOpenPage={handleOpenPage} />;
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    container.innerHTML = renderToString(ui);
+    render(ui, { hydrate: true, container });
   });
 
   it('should consist description title', () => {

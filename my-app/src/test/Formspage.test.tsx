@@ -2,11 +2,17 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Formspage } from '../pages';
 import * as Redux from 'react-redux';
+import { renderToString } from 'react-dom/server';
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useSelector: jest.fn(),
   useDispatch: jest.fn(),
+}));
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useLayoutEffect: jest.requireActual('react').useEffect,
 }));
 
 describe('Formspage', () => {
@@ -28,7 +34,11 @@ describe('Formspage', () => {
     });
 
     jest.spyOn(Redux, 'useSelector').mockReturnValue({ commentsArr: [] });
-    render(<Formspage handleOpenPage={handleOpenPage} />);
+    const ui = <Formspage handleOpenPage={handleOpenPage} />;
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    container.innerHTML = renderToString(ui);
+    render(ui, { hydrate: true, container });
   });
 
   it('should render input elements with text type', () => {
