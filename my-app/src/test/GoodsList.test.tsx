@@ -1,14 +1,20 @@
 import React from 'react';
-import { render, screen, act, waitFor } from '@testing-library/react';
+import { screen, act, waitFor, render } from '@testing-library/react';
 import { GoodsList } from '../components/goods/GoodsList';
 import * as Redux from 'react-redux';
 import { IProduct, IProductsRes } from '../models';
 import { Provider } from 'react-redux';
 import store from '../store';
+import { renderToString } from 'react-dom/server';
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useSelector: jest.fn(),
+}));
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useLayoutEffect: jest.requireActual('react').useEffect,
 }));
 
 const productResp = {
@@ -52,13 +58,17 @@ describe('GoodsList', () => {
     const setPageAmount = jest.fn();
     const sortBy = 'relevant';
 
-    await act(() =>
-      render(
+    await act(() => {
+      const ui = (
         <Provider store={store}>
           <GoodsList pageNum={pageNum} setPageAmount={setPageAmount} sortBy={sortBy} />
         </Provider>
-      )
-    );
+      );
+      const container = document.createElement('div');
+      document.body.appendChild(container);
+      container.innerHTML = renderToString(ui);
+      render(ui, { hydrate: true, container });
+    });
   });
 
   it('should render all good cards', async () => {

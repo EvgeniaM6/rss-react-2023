@@ -12,7 +12,7 @@ export const DateInput = (props: TDateInputProps) => {
   const error = errors[title];
 
   return (
-    <fieldset className={`form__field  ${title}`}>
+    <fieldset className={`form__field ${title}`}>
       <label htmlFor={title} className={`${title}__label`}>
         <span className="form__alert">*</span>
         {id}:
@@ -26,9 +26,11 @@ export const DateInput = (props: TDateInputProps) => {
           validate: checking,
         })}
       />
-      {error && error.type === 'validate' && <div className="form__alert">{message}</div>}
+      {error && error.type === 'validate' && (
+        <div className="form__alert form__error">{message}</div>
+      )}
       {error && error.type !== 'validate' && (
-        <div className="form__alert">{`${error?.message}` || 'Error'}</div>
+        <div className="form__alert form__error">{`${error?.message}` || 'Error'}</div>
       )}
     </fieldset>
   );

@@ -2,6 +2,12 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { Comment } from '../components/form/Comment';
 import { ICommentObj } from 'models';
+import { renderToString } from 'react-dom/server';
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useLayoutEffect: jest.requireActual('react').useEffect,
+}));
 
 describe('Comment', () => {
   const newComment: ICommentObj = {
@@ -17,7 +23,11 @@ describe('Comment', () => {
   };
 
   beforeEach(() => {
-    render(<Comment commentObj={newComment} />);
+    const ui = <Comment commentObj={newComment} />;
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    container.innerHTML = renderToString(ui);
+    render(ui, { hydrate: true, container });
   });
 
   it('should render user`s name and surname', () => {

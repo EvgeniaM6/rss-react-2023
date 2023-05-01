@@ -30,6 +30,7 @@ import {
   TGoodsSearchProps,
   TModalProps,
   TPaginationProps,
+  TSearchForm,
   TSearchProps,
   TSearchState,
   TSortingProps,
@@ -66,4 +67,5 @@ export {
   TGoodsSearchProps,
   TFormCommentsState,
   TSearchState,
+  TSearchForm,
 };
